@@ -1,0 +1,39 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# '-----------------------------------------------------------------------------------' #
+# |                                                                                   | #
+# |            _____       __                    ___   __                _            | #
+# |           |  __ \     / _|                  | \ \ / /               | |           | #
+# |           | |__) |___| |_ ___ _ __ _ __ __ _| |\ V / _ __   ___ _ __| |_          | #
+# |           |  _  // _ \  _/ _ \ '__| '__/ _` | | > < | '_ \ / _ \ '__| __|         | #
+# |           | | \ \  __/ ||  __/ |  | | | (_| | |/ . \| |_) |  __/ |  | |_          | #
+# |           |_|  \_\___|_| \___|_|  |_|  \__,_|_/_/ \_\ .__/ \___|_|  \__|          | #
+# |                                                     | |                           | #
+# |                                                     |_|                           | #
+# |          Thank you for your purchase!  Your support means a lot to me :)          | #
+# '-----------------------------------------------------------------------------------' #
+#                                                                                       #
+#     Developed:                     My profile page:                                   #
+#     By SadShrimpy#9190 with <3  -  https://www.spigotmc.org/members/shiry.583821/     #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Do not modify this value, it may CORRUPT the entire config file!
+version: v1.0.0-Relase
+
+# -----> TRACKING DELLE STATISTICHE DI REFERRAL
+#   Tieni traccia delle statistiche di referral per ciascun utente,
+#     - come il numero di giocatori invitati,
+#     - il tempo medio che i giocatori invitati trascorrono sul server,
+#     - il numero di giocatori che diventano attivi dopo essere stati invitati,
+#   Queste informazioni possono essere utilizzate per migliorare il sistema di referral e premiare gli utenti più efficaci
+#
+
+# -----> EVENTI A TEMPO LIMITATO PER I REFERRAL
+#   Introduci eventi a tempo limitato in cui i giocatori possono guadagnare premi bonus
+#   per ogni referral ottenuto durante quel periodo.
+#   Ad esempio, potresti avere un evento "Weekend di inviti" in cui ogni nuovo giocatore
+#   invitato durante il fine settimana garantisce un premio extra.
+#
+
+# -----> SUPPORTO PER LE STATISTICHE SOCIALI
+#   Integrazione con i social (DISCORD) che permette ai giocatori di
+#   ottenere la statistiche generali e specifiche...

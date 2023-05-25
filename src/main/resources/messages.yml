@@ -1,0 +1,123 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# '-----------------------------------------------------------------------------------' #
+# |                                                                                   | #
+# |            _____       __                    ___   __                _            | #
+# |           |  __ \     / _|                  | \ \ / /               | |           | #
+# |           | |__) |___| |_ ___ _ __ _ __ __ _| |\ V / _ __   ___ _ __| |_          | #
+# |           |  _  // _ \  _/ _ \ '__| '__/ _` | | > < | '_ \ / _ \ '__| __|         | #
+# |           | | \ \  __/ ||  __/ |  | | | (_| | |/ . \| |_) |  __/ |  | |_          | #
+# |           |_|  \_\___|_| \___|_|  |_|  \__,_|_/_/ \_\ .__/ \___|_|  \__|          | #
+# |                                                     | |                           | #
+# |                                                     |_|                           | #
+# |          Thank you for your purchase!  Your support means a lot to me :)          | #
+# '-----------------------------------------------------------------------------------' #
+#                                                                                       #
+#     Developed:                     My profile page:                                   #
+#     By SadShrimpy#9190 with <3  -  https://www.spigotmc.org/members/shiry.583821/     #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Notes                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Thanks for supporting me with your purchase!
+
+# In this file you will find all the messages of the plugin,
+#  you can customize them as you want!
+
+# Each node have their own PLACEHOLDER(S), having their own
+#  meaning. If used at the execution of that message, they
+#  will go to be replaced by the corresponding value.
+# Each placeholder value, is explained in the paragraph
+#  preceding the message node.
+
+# Happy customization! :)
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |               Plugin's related messages              | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Here you can modify the general messages of the plugin
+prefix: "&7[&cReferral&6X&epert&7] &8> &7" # Prefix of the plugin
+reloaded:
+  correctly: "&7Plugin reloaded &acorrectly&7."
+  incorrectly: "&7Plugin reloaded &cincorrectly&7." #todo add errors ...
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Chat messages                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Here you can edit all the messages that are going to be used via chat
+# Before each node you will find the explanation and the context in which the message will be shown
+
+# In the default message line, you will find all the PLACEHOLDERS that that command will accept as input,
+# as well as a description of their usage. They can be used at will
+
+player: # Player's related messages
+    # When a player try to execute a command without the right permission
+    #   -> %player-name% : name of the player who executed the command
+    #   -> %permission% : name of the permission the player need to perform the command
+    #   -> %command% : name of the command performed
+  no-permission: "&7Hey &e%player-name%&7, you &cdon't have &7the permission (&8%permission%&7), to execute: &b%command%&7."
+    # When the plugin can't find the player involved (e.g. in a command...)
+    # For example if you need to send a gift to Hologiman, if hologiman aren't online, hologiman will be the involved player
+    #   -> %player-name% : name of the player who executed the command
+    #   -> %player-involevd% : name of the involved player
+  not-found: "&7Hey &e%player-name%&7, sorry but the player &f%player-target% &cisn't &7found&7."
+
+command: # Command's related messages
+    # When a player try to execute a command that isn't exist
+    #   -> %player-name% : name of the player who executed the command
+    #   -> %command% : name of the command performed
+  not-found: "&7Hey &e%player-name%&7, sorry but the requested command &7(&b%command%&7) &cisn't &7found&7."
+    # When a player try to execute a command without all the necessary parameters
+    #   -> %player-name% : name of the player who executed the command
+    #   -> %command% : name of the command performed
+  not-complete: "&7Hey &e%player-name%&7, sorry but the requested command &7(&b%command%&7) &cdoes't &7meet the expected &eparameters&7. &7&oSee the help page for more information&7."
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Help Command                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Manage the output of the command: /referralxpert help
+# A list will be opened. Each page contains tot commands.
+# You can configure how many in the help.size path.
+
+help:
+    # The banned will go to be printed at the beginning, and at the end of the page
+    # In the BANNER you can use the placeholders:
+    #   -> %help-cur-page% : to display the current page of the list
+    #   -> %help-max-page% : to display the maximum page of the list
+  banner: "&7&m&l              &7&l< &c&lReferral&6&lX&e&lpert &8Help &7(&a%help-cur-page%&7/&a%help-max-page%&7) &7&l>&m              "
+    # If you want a space between each row, set the value to true. Otherwise, to false
+  space: true
+    # Here you have the ordered list of all the commands that the plugin makes available.
+    # You decide which ones to print in the help messages, in what order, under what formatting, etc...
+    # It's recommended NOT to omit any commands!
+  list:
+    - "&c-> &6/rxp help <page-number> &8- &7view the generic help menu (this)."
+    - "&e-> &6/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
+    - "&c-> &6/rxp create <referral> <maximum> <player> &8- &7create a new referral code for the player specified, usable &o<maximum> &7times. If is -1 will be any tmes reedemable. &e&oNote: &7&oif not specified the player will be you." #todo this command
+    - "&6-> &6/rxp check &8- &7check the amount of referrals you have." #todo this command
+    - "&e-> &6/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
+    - "&c-> &6/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
+    - "&6-> &6/rxp redeem <value> &8- &7redeem a referral code." #todo this command
+    - "&e-> &6/rxp set <player> <value> &8- &7set the referral score of a player to a specific value." #todo this command
+    - "&6-> &6/rxp score&8- &7see your personal referral score." #todo this command
+    - "&c-> &6/rxp scoreboard <value> &8- &7see the top <value> player(s) with the highest referral score." #todo this command
+    - "&6-> &6/rxp scoreboard-gui &8- &7see the top player(s) with the highest referral score in the GUI." #todo this command
+    - "&e-> &6/rxp maximum <value> &8- &7sets the maximum amount of code(s) that can be redeemed by each player." #todo this command
+    - "&c-> &6/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
+    - "&6-> &6/rxp reload &8- &7reload the plugin."
+    - "&e-> &6Plugin &lalias &8- &7referralxpert, rxp, ref, referral."
