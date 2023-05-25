@@ -107,17 +107,17 @@ help:
     # It's recommended NOT to omit any commands!
   list:
     - "&c-> &6/rxp help <page-number> &8- &7view the generic help menu (this)."
-    - "&e-> &6/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
-    - "&c-> &6/rxp create <referral> <maximum> <player> &8- &7create a new referral code for the player specified, usable &o<maximum> &7times. If is -1 will be any tmes reedemable. &e&oNote: &7&oif not specified the player will be you." #todo this command
+    - "&c-> &6/rxp create <code> <maximum-usages> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, affiliate to &o<player> &7specified,. If is -1 will be any tmes reedemable. &e&oNote: &7&oif not specified the player will be you." #todo this command
     - "&6-> &6/rxp check &8- &7check the amount of referrals you have." #todo this command
     - "&e-> &6/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
-    - "&c-> &6/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
-    - "&6-> &6/rxp redeem <value> &8- &7redeem a referral code." #todo this command
-    - "&e-> &6/rxp set <player> <value> &8- &7set the referral score of a player to a specific value." #todo this command
+    - "&e-> &6/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
     - "&6-> &6/rxp score&8- &7see your personal referral score." #todo this command
     - "&c-> &6/rxp scoreboard <value> &8- &7see the top <value> player(s) with the highest referral score." #todo this command
     - "&6-> &6/rxp scoreboard-gui &8- &7see the top player(s) with the highest referral score in the GUI." #todo this command
+    - "&e-> &6/rxp set <player> <value> &8- &7set the referral score of a player to a specific value." #todo this command
     - "&e-> &6/rxp maximum <value> &8- &7sets the maximum amount of code(s) that can be redeemed by each player." #todo this command
-    - "&c-> &6/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
+    - "&6-> &6/rxp redeem <value> &8- &7redeem a referral code." #todo this command
     - "&6-> &6/rxp reload &8- &7reload the plugin."
+    - "&c-> &6/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
+    - "&c-> &6/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
     - "&e-> &6Plugin &lalias &8- &7referralxpert, rxp, ref, referral."
