@@ -12,17 +12,17 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class HelpCommand implements CommandSyntax {
 
-    private List<String> cmds;
+    private List<String> cmdsInHelp;
+    private String[] cmdArgs;
     private int finish;
     private int start;
     private int size;
+    private int pageMax;
+    private int page;
 
     protected FileConfiguration msg = sadLibrary.configurations().getMessages();
     protected SadPlaceholders place = sadLibrary.placeholders();
-    protected int pageMax;
-    protected int page;
 
-    private String[] cmdArgs;
 
     public HelpCommand(String[] strings) {
         cmdArgs = strings;
@@ -47,7 +47,7 @@ public class HelpCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        cmds = msg.getStringList("help.list");
+        cmdsInHelp = msg.getStringList("help.list");
 
 /*
   // todo select the amount displayed
@@ -60,12 +60,12 @@ public class HelpCommand implements CommandSyntax {
 */
         size = 3;
 
-        pageMax = (cmds.size() % size) == 0 ? cmds.size() / size : cmds.size() / size + 1;
+        pageMax = (cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1;
         page = Math.max(Integer.parseInt(cmdArgs[1]), 1); // Take only positive && non-zero values
         if (page > pageMax) page = pageMax; // Limit the page value
 
         // Take only bounded values
-        finish = (page * size - 1) > cmds.size() ? cmds.size() - 1 : (page * size - 1);
+        finish = (page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1);
         start = page == 0 ? 0 : (page - 1) * size;
 
         SadMessages msgC = sadLibrary.messages();
@@ -97,9 +97,9 @@ public class HelpCommand implements CommandSyntax {
         }
 
         if (msg.getBoolean("help.page.enabled")) {
-            String rowBtns = new ButtonsRow().getRowHoverable("help.page.row");
+            String rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
 
-            while ((start <= finish) && (cmds.size() > start)) {
+            while ((start <= finish) && (cmdsInHelp.size() > start)) {
                 if (row.isFirst(row)) {
                     sender.sendMessage(msgC.viaChat(false, rowBtns));
                     sender.sendMessage(msgC.viaChat(false, ""));
@@ -114,8 +114,8 @@ public class HelpCommand implements CommandSyntax {
             }
         }
         else {
-            while ((start <= finish) && (cmds.size() > start)) {
-                sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
+            while ((start <= finish) && (cmdsInHelp.size() > start)) {
+                sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
                 if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
                 start++;
             }
@@ -124,8 +124,8 @@ public class HelpCommand implements CommandSyntax {
     }
 
     private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
-        while ((start <= finish) && (cmds.size() > start)) {
-            sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
+        while ((start <= finish) && (cmdsInHelp.size() > start)) {
+            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
             start++;
         }
     }
