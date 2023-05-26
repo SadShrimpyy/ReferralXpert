@@ -116,8 +116,16 @@ help:
       #
       # You can use these buttons at any position in the LIST section.
       #   Use placeholders: %help-button-next% and %help-button-previous%.
-    button-next: "&a&lNEXT PAGE &7(%help-next-page%) >>"
-    button-previous: "&c&l<< PREVIOUS PAGE &7(%help-prev-page%)"
+    button-next:
+        # The text that will be displayed as a button
+      text: "&a&lNEXT PAGE &7(%help-next-page%) &a&l>>"
+        # The text that will be displayed as hovered onto the button
+      hover: "&e&oLeft-Click &7to go to the &enext page&r"
+    button-previous:
+        # The text that will be displayed as a button
+      text: "&c&l<< &7(%help-prev-page%) &c&lPREVIOUS PAGE"
+        # The text that will be displayed as hovered onto the button
+      hover: "&e&oLeft-Click &7to go to the &eprevious page&r"
       # Here you can decide where to print the button line. The options are:
       #  -> LAST_ROW: will print the line as the last line (before the second banner, if enabled);
       #  -> FIRST_ROW: will print the line as the first line (after the first banner, if enabled).

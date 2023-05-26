@@ -3,6 +3,7 @@ package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -20,7 +21,7 @@ public class HelpCommand implements CommandSyntax {
     private int pageMax;
     private int page;
 
-    protected FileConfiguration msg = sadLibrary.configurations().getMessages();
+    protected FileConfiguration msgC = sadLibrary.configurations().getMessages();
     protected SadPlaceholders place = sadLibrary.placeholders();
 
 
@@ -47,7 +48,7 @@ public class HelpCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        cmdsInHelp = msg.getStringList("help.list");
+        cmdsInHelp = msgC.getStringList("help.list");
 
 /*
   // todo select the amount displayed
@@ -71,12 +72,12 @@ public class HelpCommand implements CommandSyntax {
         SadMessages msgC = sadLibrary.messages();
 
         // Send the help page
-        sendBanner(sender, msg, msgC);
-        if (msg.getBoolean("help.space-between-rows"))
+        sendBanner(sender, this.msgC, msgC);
+        if (this.msgC.getBoolean("help.space-between-rows"))
             printWithSpace(sender, msgC);
         else
             printWithoutSpace(sender, msgC);
-        sendBanner(sender, msg, msgC);
+        sendBanner(sender, this.msgC, msgC);
 
     }
 
@@ -90,24 +91,25 @@ public class HelpCommand implements CommandSyntax {
         RowPosition row;
 
         try {
-            row = RowPosition.valueOf(msg.getString("help.page.display"));
+            row = RowPosition.valueOf(this.msgC.getString("help.page.display"));
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(msgC.viaChat(true, msg.getString("plugin-error.row-not-valid")));
+            sender.sendMessage(msgC.viaChat(true, this.msgC.getString("plugin-error.row-not-valid")));
             return;
         }
 
-        if (msg.getBoolean("help.page.enabled")) {
-            String rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
+        if (this.msgC.getBoolean("help.page.enabled")) {
+            BaseComponent[] rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row", sender);
+            start = finish*2;
 
             while ((start <= finish) && (cmdsInHelp.size() > start)) {
                 if (row.isFirst(row)) {
-                    sender.sendMessage(msgC.viaChat(false, rowBtns));
+                    //sender.sendMessage(msgC.viaChat(false, Arrays.toString(rowBtns)));
                     sender.sendMessage(msgC.viaChat(false, ""));
                 }
                 //sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
                 if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
                 if (!row.isFirst(row)) {
-                    sender.sendMessage(msgC.viaChat(false, rowBtns));
+                    //sender.sendMessage(msgC.viaChat(false, Arrays.toString(rowBtns)));
                     sender.sendMessage(msgC.viaChat(false, ""));
                 }
                 start++;
