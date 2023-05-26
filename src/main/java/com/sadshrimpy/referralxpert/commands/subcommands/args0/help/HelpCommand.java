@@ -4,8 +4,11 @@ import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -15,11 +18,11 @@ public class HelpCommand implements CommandSyntax {
 
     private List<String> cmdsInHelp;
     private String[] cmdArgs;
-    private int finish;
-    private int start;
-    private int size;
-    private int pageMax;
-    private int page;
+    private byte finish;
+    private byte start;
+    private byte size;
+    private byte pageMax;
+    private byte page;
 
     protected FileConfiguration msgC = sadLibrary.configurations().getMessages();
     protected SadPlaceholders place = sadLibrary.placeholders();
@@ -60,14 +63,13 @@ public class HelpCommand implements CommandSyntax {
         if (size < 3) size = 3; // Positive and minimum values
 */
         size = 3;
-
-        pageMax = (cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1;
-        page = Math.max(Integer.parseInt(cmdArgs[1]), 1); // Take only positive && non-zero values
-        if (page > pageMax) page = pageMax; // Limit the page value
+        pageMax = (byte) ((cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1);
+        page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);
+        if (page > pageMax) page = pageMax;
 
         // Take only bounded values
-        finish = (page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1);
-        start = page == 0 ? 0 : (page - 1) * size;
+        finish = (byte) ((page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1));
+        start = (byte) (page < 1 ? 1 : (page - 1) * size);
 
         SadMessages msgC = sadLibrary.messages();
 
@@ -97,35 +99,30 @@ public class HelpCommand implements CommandSyntax {
             return;
         }
 
-        if (this.msgC.getBoolean("help.page.enabled")) {
-            BaseComponent[] rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row", sender);
-            start = finish*2;
+        boolean hPage = this.msgC.getBoolean("help.page.enabled");
+        TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
+        Player player = Bukkit.getPlayer(sender.getName());
 
-            while ((start <= finish) && (cmdsInHelp.size() > start)) {
-                if (row.isFirst(row)) {
-                    //sender.sendMessage(msgC.viaChat(false, Arrays.toString(rowBtns)));
-                    sender.sendMessage(msgC.viaChat(false, ""));
-                }
-                //sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
-                if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
-                if (!row.isFirst(row)) {
-                    //sender.sendMessage(msgC.viaChat(false, Arrays.toString(rowBtns)));
-                    sender.sendMessage(msgC.viaChat(false, ""));
-                }
-                start++;
-            }
-        }
-        else {
-            while ((start <= finish) && (cmdsInHelp.size() > start)) {
-                sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
-                if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
-                start++;
-            }
+        if (hPage && row.isFirst(row)) {
+            player.spigot().sendMessage(rowBtns);
+            sender.sendMessage(msgC.viaChat(false, ""));
         }
 
+        while (start <= finish && cmdsInHelp.size() > start) {
+            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
+            if (start < finish)
+                sender.sendMessage(msgC.viaChat(false, ""));
+            start++;
+        }
+
+        if (hPage && !row.isFirst(row)) {
+            sender.sendMessage(msgC.viaChat(false, ""));
+            player.spigot().sendMessage(rowBtns);
+        }
     }
 
     private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
+        // TODO: 5/26/2023 insert the row
         while ((start <= finish) && (cmdsInHelp.size() > start)) {
             sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
             start++;
