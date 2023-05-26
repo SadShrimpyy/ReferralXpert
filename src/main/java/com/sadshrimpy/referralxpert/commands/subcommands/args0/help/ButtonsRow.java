@@ -1,6 +1,7 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -77,7 +78,9 @@ public class ButtonsRow extends HelpCommand {
 
         sB1.setLength(0);
         sB1.append(msgC.getString(path));
+        String cache = sB1.toString();
         int[] ps = getRagexs(sB1);
+        int[] cachePs = getRagexs(sB1);
 
         StringBuilder sB2 = sB1;
         String[] aS = new String[]{new String(), new String()};
@@ -98,7 +101,14 @@ public class ButtonsRow extends HelpCommand {
         aTC[0] = getComponent(0, msg.translateColors(aS[0]), aHE, aCE);
         aTC[1] = getComponent(1, msg.translateColors(aS[1]), aHE, aCE);
 
-        Objects.requireNonNull(Bukkit.getPlayer(sender.getName())).spigot().sendMessage(aTC[0], aTC[1]);
+        TextComponent t = new TextComponent();
+        t.addExtra(msg.translateColors(cache.substring(0, cachePs[0])));
+        t.addExtra(aTC[0]);
+        t.addExtra(msg.translateColors(cache.substring(cachePs[1] + 1, cachePs[2])));
+        t.addExtra(aTC[1]);
+        t.addExtra(msg.translateColors(cache.substring(cachePs[3] + 1, cache.length())));
+
+        Objects.requireNonNull(Bukkit.getPlayer(sender.getName())).spigot().sendMessage(t);
 
         return new BaseComponent[]{/*aTC[0], aTC[1]*/};
     }
