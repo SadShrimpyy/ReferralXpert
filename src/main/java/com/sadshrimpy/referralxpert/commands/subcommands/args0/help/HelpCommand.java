@@ -3,7 +3,6 @@ package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -52,6 +51,7 @@ public class HelpCommand implements CommandSyntax {
     @Override
     public void perform(CommandSender sender) {
         cmdsInHelp = msgC.getStringList("help.list");
+        SadMessages sMsg = sadLibrary.messages();
 
 /*
   // todo select the amount displayed
@@ -67,22 +67,22 @@ public class HelpCommand implements CommandSyntax {
         page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);
         if (page > pageMax) page = pageMax;
 
-        // Take only bounded values
         finish = (byte) ((page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1));
         start = (byte) (page < 1 ? 1 : (page - 1) * size);
 
-        SadMessages msgC = sadLibrary.messages();
-
-        // Send the help page
-        sendBanner(sender, this.msgC, msgC);
+        sendBanner(sender, this.msgC, sMsg);
         if (this.msgC.getBoolean("help.space-between-rows"))
-            printWithSpace(sender, msgC);
+            printWithSpace(sender, sMsg);
         else
-            printWithoutSpace(sender, msgC);
-        sendBanner(sender, this.msgC, msgC);
+            printWithoutSpace(sender, sMsg);
+        sendBanner(sender, this.msgC, sMsg);
 
     }
 
+
+    /**
+     * Print the menu without the space
+     * */
     private void printWithSpace(CommandSender sender, SadMessages msgC) {
 /*
         int remainCmds = cmds.size() - (size * (page - 1));
@@ -90,45 +90,81 @@ public class HelpCommand implements CommandSyntax {
             finish -= size - remainCmds; // NO 7
         if (finish > cmds.size()) finish = cmds.size();
 */
-        RowPosition row;
-
-        try {
-            row = RowPosition.valueOf(this.msgC.getString("help.page.display"));
-        } catch (IllegalArgumentException e) {
-            sender.sendMessage(msgC.viaChat(true, this.msgC.getString("plugin-error.row-not-valid")));
-            return;
-        }
+        RowPosition row = getRow(sender, msgC);
+        if (row == null) return;
 
         boolean hPage = this.msgC.getBoolean("help.page.enabled");
         TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
         Player player = Bukkit.getPlayer(sender.getName());
 
-        if (hPage && row.isFirst(row)) {
-            player.spigot().sendMessage(rowBtns);
-            sender.sendMessage(msgC.viaChat(false, ""));
-        }
+        if (hPage && row.isFirst(row))
+            if (player != null) {
+                player.spigot().sendMessage(rowBtns);
+                sender.sendMessage("");
+            }
 
         while (start <= finish && cmdsInHelp.size() > start) {
             sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
             if (start < finish)
-                sender.sendMessage(msgC.viaChat(false, ""));
+                sender.sendMessage("");
             start++;
         }
 
-        if (hPage && !row.isFirst(row)) {
-            sender.sendMessage(msgC.viaChat(false, ""));
-            player.spigot().sendMessage(rowBtns);
-        }
+        if (hPage && !row.isFirst(row))
+            if (player != null) {
+                sender.sendMessage("");
+                player.spigot().sendMessage(rowBtns);
+            }
     }
 
+    /**
+     * Print the menu without the space
+     * */
     private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
-        // TODO: 5/26/2023 insert the row
-        while ((start <= finish) && (cmdsInHelp.size() > start)) {
+        RowPosition row;
+
+        row = getRow(sender, msgC);
+        if (row == null) return;
+
+        boolean hPage = this.msgC.getBoolean("help.page.enabled");
+        TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
+        Player player = Bukkit.getPlayer(sender.getName());
+
+        if (hPage && row.isFirst(row))
+            if (player != null) {
+                player.spigot().sendMessage(rowBtns);
+                sender.sendMessage("");
+            }
+
+        while (start <= finish && cmdsInHelp.size() > start) {
             sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
             start++;
         }
+
+        if (hPage && !row.isFirst(row))
+            if (player != null) {
+                sender.sendMessage("");
+                player.spigot().sendMessage(rowBtns);
+            }
     }
 
+    /**
+     * Get the row
+     * */
+    private RowPosition getRow(CommandSender sender, SadMessages msgC) {
+        RowPosition row;
+        try {
+            row = RowPosition.valueOf(this.msgC.getString("help.page.display"));
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage(msgC.viaChat(true, this.msgC.getString("plugin-error.row-not-valid")));
+            return null;
+        }
+        return row;
+    }
+
+    /**
+     * Send the banner
+     * */
     private void sendBanner(CommandSender sender, FileConfiguration msg, SadMessages msgC) {
         sender.sendMessage(msgC.viaChat(false, msg.getString("help.banner")
                 .replace(place.getHelpCurPage(), Integer.toString(page))
