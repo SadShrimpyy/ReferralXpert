@@ -32,16 +32,23 @@ public class HelpCommand implements CommandSyntax {
     }
 
     public HelpCommand() {
+
     }
 
     @Override
-    public String getName() { return "help"; }
+    public String getName() {
+        return "help";
+    }
 
     @Override
-    public String getPermission(String[] args) { return sadLibrary.permissions().getHelp(); }
+    public String getPermission(String[] args) {
+        return sadLibrary.permissions().getHelp();
+    }
 
     @Override
-    public boolean hasSubcommands() { return false; }
+    public boolean hasSubcommands() {
+        return false;
+    }
 
     @Override
     public int expectedArgs() {
@@ -78,7 +85,6 @@ public class HelpCommand implements CommandSyntax {
         sendBanner(sender, this.msgC, sMsg);
 
     }
-
 
     /**
      * Print the menu without the space
