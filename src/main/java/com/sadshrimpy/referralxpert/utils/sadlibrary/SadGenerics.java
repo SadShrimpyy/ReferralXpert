@@ -28,7 +28,7 @@ public class SadGenerics extends SadMessages {
         msg.consoleHeader("&a | | \\ \\  __/ ||  __/ |  | | | (_| | |/ . \\| |_) |  __/ |  | |_&r");
         msg.consoleHeader("&a |_|  \\_\\___|_| \\___|_|  |_|  \\__,_|_/_/ \\_\\ .__/ \\___|_|   \\__|&r");
         msg.consoleHeader("&a                                           | |&r");
-        msg.consoleHeader("&a                                           |_|&r\n");
+        msg.consoleHeader("&r -> Developed by: &aSadShrimpy#9190&r          &a|_|&r");
     }
     // Getters
     public String getVersion() { return this.version; }
@@ -36,5 +36,5 @@ public class SadGenerics extends SadMessages {
     public File getPluginFolder() { return this.pluginFolder; }
 
     // Alone boi
-    public void displayHeader() { this.display(); msg.consoleHeader("&r -> Developed by: &aSadShrimpy#9190&r\n" + "&r -> Current version: &a" + this.version + "&r\n"); }
+    public void displayHeader() { this.display(); msg.consoleHeader("&r -> Current version: &a" + this.version + "&r\n"); }
 }
