@@ -1,14 +1,11 @@
-package com.sadshrimpy.referralxpert.commands.subcommands.args0;
+package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
-import com.sadshrimpy.referralxpert.utils.sadlibrary.SadConfigurations;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
@@ -16,16 +13,22 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 public class HelpCommand implements CommandSyntax {
 
     private List<String> cmds;
-    private int size;
-    private int page;
-    private int pageMax;
     private int finish;
     private int start;
+    private int size;
+
+    protected FileConfiguration msg = sadLibrary.configurations().getMessages();
+    protected SadPlaceholders place = sadLibrary.placeholders();
+    protected int pageMax;
+    protected int page;
 
     private String[] cmdArgs;
 
     public HelpCommand(String[] strings) {
         cmdArgs = strings;
+    }
+
+    public HelpCommand() {
     }
 
     @Override
@@ -44,7 +47,6 @@ public class HelpCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        FileConfiguration msg = sadLibrary.configurations().getMessages();
         cmds = msg.getStringList("help.list");
 
 /*
@@ -70,7 +72,7 @@ public class HelpCommand implements CommandSyntax {
 
         // Send the help page
         sendBanner(sender, msg, msgC);
-        if (msg.getBoolean("help.space"))
+        if (msg.getBoolean("help.space-between-rows"))
             printWithSpace(sender, msgC);
         else
             printWithoutSpace(sender, msgC);
@@ -85,12 +87,40 @@ public class HelpCommand implements CommandSyntax {
             finish -= size - remainCmds; // NO 7
         if (finish > cmds.size()) finish = cmds.size();
 */
+        RowPosition row;
 
-        while ((start <= finish) && (cmds.size() > start)) {
-            sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
-            if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
-            start++;
+        try {
+            row = RowPosition.valueOf(msg.getString("help.page.display"));
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage(msgC.viaChat(true, msg.getString("plugin-error.row-not-valid")));
+            return;
         }
+
+        if (msg.getBoolean("help.page.enabled")) {
+            String rowBtns = new ButtonsRow().getRowHoverable("help.page.row");
+
+            while ((start <= finish) && (cmds.size() > start)) {
+                if (row.isFirst(row)) {
+                    sender.sendMessage(msgC.viaChat(false, rowBtns));
+                    sender.sendMessage(msgC.viaChat(false, ""));
+                }
+                //sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
+                if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
+                if (!row.isFirst(row)) {
+                    sender.sendMessage(msgC.viaChat(false, rowBtns));
+                    sender.sendMessage(msgC.viaChat(false, ""));
+                }
+                start++;
+            }
+        }
+        else {
+            while ((start <= finish) && (cmds.size() > start)) {
+                sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
+                if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
+                start++;
+            }
+        }
+
     }
 
     private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
@@ -102,7 +132,7 @@ public class HelpCommand implements CommandSyntax {
 
     private void sendBanner(CommandSender sender, FileConfiguration msg, SadMessages msgC) {
         sender.sendMessage(msgC.viaChat(false, msg.getString("help.banner")
-                .replace(sadLibrary.placeholders().getHelpCurPage(), Integer.toString(page))
-                .replace(sadLibrary.placeholders().getHelpMaxPage(), Integer.toString(pageMax))));
+                .replace(place.getHelpCurPage(), Integer.toString(page))
+                .replace(place.getHelpMaxPage(), Integer.toString(pageMax))));
     }
 }

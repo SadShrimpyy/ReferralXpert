@@ -83,6 +83,9 @@ command: # Command's related messages
     #   -> %command% : name of the command performed
   not-complete: "&7Hey &e%player-name%&7, sorry but the requested command &7(&b%command%&7) &cdoes't &7meet the expected &eparameters&7. &7&oSee the help page for more information&7."
 
+plugin-error: # Plugin's related errors
+  row-not-valid: "&7The row value provided does &cnot &7meet the &eparameters&7! Check the &e&omessages.yml &7file, at &6&ohelp.page.display&7 path."
+
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -95,29 +98,49 @@ command: # Command's related messages
 # You can configure how many in the help.size path.
 
 help:
-    # The banned will go to be printed at the beginning, and at the end of the page
-    # In the BANNER you can use the placeholders:
-    #   -> %help-cur-page% : to display the current page of the list
-    #   -> %help-max-page% : to display the maximum page of the list
+    # The banner will go to be printed at the beginning, and at the end of the page
+    # In the BANNER section you can use the placeholders:
+    #   -> %help-cur-page% : to display the minimum page number, of the list;
+    #   -> %help-max-page% : to display the maximum page number, of the list.
   banner: "&7&m&l              &7&l< &c&lReferral&6&lX&e&lpert &8Help &7(&a%help-cur-page%&7/&a%help-max-page%&7) &7&l>&m              "
-    # If you want a space between each row, set the value to true. Otherwise, to false
-  space: true
+    # If you want a space between each row: set the value to TRUE. Otherwise, to FALSE.
+  space-between-rows: true
+    # Here you will find the section concerning the buttons to click to change the page
+  page:
+      # If you want to use the button to change the help page: set the value to TRUE. Otherwise, to FALSE.
+    enabled: true
+      # In the BUTTON-NEXT and BUTTON-PREVIOUS you can use the placeholders:
+      #   -> %help-prev-page% : to display the number of the previous page, of the list;
+      #   -> %help-cur-page% : to display the number of the current page, of the list;
+      #   -> %help-next-page% : to display the number of the next page, of the list.
+      #
+      # You can use these buttons at any position in the LIST section.
+      #   Use placeholders: %help-button-next% and %help-button-previous%.
+    button-next: "&a&lNEXT PAGE &7(%help-next-page%) >>"
+    button-previous: "&c&l<< PREVIOUS PAGE &7(%help-prev-page%)"
+      # Here you can decide where to print the button line. The options are:
+      #  -> LAST_ROW: will print the line as the last line (before the second banner, if enabled);
+      #  -> FIRST_ROW: will print the line as the first line (after the first banner, if enabled).
+    display: "FIRST_ROW"
+      # Here you can edit the button line to your liking
+    row: "     &7&l-+ %help-button-previous% &7|| %help-button-next% &7&l+-    "
     # Here you have the ordered list of all the commands that the plugin makes available.
     # You decide which ones to print in the help messages, in what order, under what formatting, etc...
     # It's recommended NOT to omit any commands!
   list:
+    - "&7&oHey! You can see the help menu here. Open the chat and hover your mouse cursor, over a command to see more information. Click the &o\"change page\" &7buttons to scroll through the help list."
     - "&c-> &6/rxp help <page-number> &8- &7view the generic help menu (this)."
-    - "&c-> &6/rxp create <code> <maximum-usages> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, affiliate to &o<player> &7specified,. If is -1 will be any tmes reedemable. &e&oNote: &7&oif not specified the player will be you." #todo this command
-    - "&6-> &6/rxp check &8- &7check the amount of referrals you have." #todo this command
-    - "&e-> &6/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
-    - "&e-> &6/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
-    - "&6-> &6/rxp score&8- &7see your personal referral score." #todo this command
+    - "&6-> &6/rxp create <code> <maximum-usages> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7. &e&oNote: if you set <maximum> to -1, will be any tmes reedemable, and if the <player> isn't specified, the holder will be you." #todo this command
+    - "&e-> &6/rxp check &8- &7check the amount of referrals you have." #todo this command
+    - "&c-> &6/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
+    - "&6-> &6/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
+    - "&e-> &6/rxp score&8- &7see your personal referral score." #todo this command
     - "&c-> &6/rxp scoreboard <value> &8- &7see the top <value> player(s) with the highest referral score." #todo this command
     - "&6-> &6/rxp scoreboard-gui &8- &7see the top player(s) with the highest referral score in the GUI." #todo this command
     - "&e-> &6/rxp set <player> <value> &8- &7set the referral score of a player to a specific value." #todo this command
-    - "&e-> &6/rxp maximum <value> &8- &7sets the maximum amount of code(s) that can be redeemed by each player." #todo this command
+    - "&c-> &6/rxp maximum <value> &8- &7sets the maximum amount of code(s) that can be redeemed by each player." #todo this command
     - "&6-> &6/rxp redeem <value> &8- &7redeem a referral code." #todo this command
-    - "&6-> &6/rxp reload &8- &7reload the plugin."
+    - "&e-> &6/rxp reload &8- &7reload the plugin."
     - "&c-> &6/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
-    - "&c-> &6/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
+    - "&6-> &6/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
     - "&e-> &6Plugin &lalias &8- &7referralxpert, rxp, ref, referral."

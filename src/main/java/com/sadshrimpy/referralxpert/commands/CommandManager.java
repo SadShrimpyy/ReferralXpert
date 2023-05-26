@@ -2,6 +2,7 @@ package com.sadshrimpy.referralxpert.commands;
 
 import com.sadshrimpy.referralxpert.commands.subcommands.args0.*;
 import com.sadshrimpy.referralxpert.commands.subcommands.args0.create.CreateCommand;
+import com.sadshrimpy.referralxpert.commands.subcommands.args0.help.HelpCommand;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
