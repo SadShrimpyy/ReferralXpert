@@ -1,8 +1,22 @@
 package com.sadshrimpy.referralxpert.utils.sadlibrary;
 
 import com.sadshrimpy.referralxpert.utils.files.FilesBuilder;
+import org.bukkit.Bukkit;
+
+import java.util.Date;
+import java.util.HashMap;
 
 public class SadLibrary {
+
+    private SadConfigurations configurations;
+    private SadPlaceholders placeholders;
+    private SadPermissions permissions;
+    private SadGenerics generics;
+    private SadMessages messages;
+    private SadFiles files;
+    private SadDate date;
+
+    private HashMap<String, Date> onlineTime;
 
     public void initialize() {
         // Instance all the classes
@@ -14,42 +28,23 @@ public class SadLibrary {
         this.files = new SadFiles();
         this.configurations = new SadConfigurations();
 
-
-        // Trickys SHotoSH
-        generics.displayHeader();
+        this.generics.displayHeader();
         this.buildFiles();
         //this.buildDefaultJson();
+
+        this.onlineTime = new HashMap<>(Bukkit.getOnlinePlayers().size());
     }
 
-    // Generics related
-    public SadGenerics generics() { return this.generics; }
-    protected SadGenerics generics;
 
-    // Placeholders related
-    protected SadPlaceholders placeholders;
+    public SadConfigurations configurations() { return this.configurations; }
     public SadPlaceholders placeholders() { return this.placeholders; }
-
-    // Permissions related
-    protected SadPermissions permissions;
     public SadPermissions permissions() { return this.permissions; }
-
-    // Date related
-    protected SadDate date;
+    public SadGenerics generics() { return this.generics; }
+    public SadMessages messages() { return this.messages; }
+    public SadFiles files() { return this.files; }
     public SadDate date() { return this.date; }
 
-    // Messages related
-    protected SadMessages messages;
-    public SadMessages messages() { return this.messages; }
 
-    // Files related
-    protected SadFiles files;
-    public SadFiles files() { return this.files; }
-
-    // Configurations related
-    protected SadConfigurations configurations;
-    public SadConfigurations configurations() { return this.configurations; }
-
-    // Build all the files
     public void buildFiles() {
         new FilesBuilder();
     }
@@ -62,6 +57,8 @@ public class SadLibrary {
         this.messages = null;
         this.files = null;
         this.configurations = null;
+
+        this.onlineTime = null;
     }
 
 

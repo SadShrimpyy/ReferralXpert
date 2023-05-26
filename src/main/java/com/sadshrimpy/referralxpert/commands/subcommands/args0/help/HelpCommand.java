@@ -3,9 +3,11 @@ package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
-import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -15,11 +17,11 @@ public class HelpCommand implements CommandSyntax {
 
     private List<String> cmdsInHelp;
     private String[] cmdArgs;
-    private int finish;
-    private int start;
-    private int size;
-    private int pageMax;
-    private int page;
+    private byte finish;
+    private byte start;
+    private byte size;
+    private byte pageMax;
+    private byte page;
 
     protected FileConfiguration msgC = sadLibrary.configurations().getMessages();
     protected SadPlaceholders place = sadLibrary.placeholders();
@@ -30,16 +32,23 @@ public class HelpCommand implements CommandSyntax {
     }
 
     public HelpCommand() {
+
     }
 
     @Override
-    public String getName() { return "help"; }
+    public String getName() {
+        return "help";
+    }
 
     @Override
-    public String getPermission(String[] args) { return sadLibrary.permissions().getHelp(); }
+    public String getPermission(String[] args) {
+        return sadLibrary.permissions().getHelp();
+    }
 
     @Override
-    public boolean hasSubcommands() { return false; }
+    public boolean hasSubcommands() {
+        return false;
+    }
 
     @Override
     public int expectedArgs() {
@@ -49,6 +58,7 @@ public class HelpCommand implements CommandSyntax {
     @Override
     public void perform(CommandSender sender) {
         cmdsInHelp = msgC.getStringList("help.list");
+        SadMessages sMsg = sadLibrary.messages();
 
 /*
   // todo select the amount displayed
@@ -60,27 +70,25 @@ public class HelpCommand implements CommandSyntax {
         if (size < 3) size = 3; // Positive and minimum values
 */
         size = 3;
+        pageMax = (byte) ((cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1);
+        page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);
+        if (page > pageMax) page = pageMax;
 
-        pageMax = (cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1;
-        page = Math.max(Integer.parseInt(cmdArgs[1]), 1); // Take only positive && non-zero values
-        if (page > pageMax) page = pageMax; // Limit the page value
+        finish = (byte) ((page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1));
+        start = (byte) (page < 1 ? 1 : (page - 1) * size);
 
-        // Take only bounded values
-        finish = (page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1);
-        start = page == 0 ? 0 : (page - 1) * size;
-
-        SadMessages msgC = sadLibrary.messages();
-
-        // Send the help page
-        sendBanner(sender, this.msgC, msgC);
+        sendBanner(sender, this.msgC, sMsg);
         if (this.msgC.getBoolean("help.space-between-rows"))
-            printWithSpace(sender, msgC);
+            printWithSpace(sender, sMsg);
         else
-            printWithoutSpace(sender, msgC);
-        sendBanner(sender, this.msgC, msgC);
+            printWithoutSpace(sender, sMsg);
+        sendBanner(sender, this.msgC, sMsg);
 
     }
 
+    /**
+     * Print the menu without the space
+     * */
     private void printWithSpace(CommandSender sender, SadMessages msgC) {
 /*
         int remainCmds = cmds.size() - (size * (page - 1));
@@ -88,50 +96,81 @@ public class HelpCommand implements CommandSyntax {
             finish -= size - remainCmds; // NO 7
         if (finish > cmds.size()) finish = cmds.size();
 */
+        RowPosition row = getRow(sender, msgC);
+        if (row == null) return;
+
+        boolean hPage = this.msgC.getBoolean("help.page.enabled");
+        TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
+        Player player = Bukkit.getPlayer(sender.getName());
+
+        if (hPage && row.isFirst(row))
+            if (player != null) {
+                player.spigot().sendMessage(rowBtns);
+                sender.sendMessage("");
+            }
+
+        while (start <= finish && cmdsInHelp.size() > start) {
+            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
+            if (start < finish)
+                sender.sendMessage("");
+            start++;
+        }
+
+        if (hPage && !row.isFirst(row))
+            if (player != null) {
+                sender.sendMessage("");
+                player.spigot().sendMessage(rowBtns);
+            }
+    }
+
+    /**
+     * Print the menu without the space
+     * */
+    private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
         RowPosition row;
 
+        row = getRow(sender, msgC);
+        if (row == null) return;
+
+        boolean hPage = this.msgC.getBoolean("help.page.enabled");
+        TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
+        Player player = Bukkit.getPlayer(sender.getName());
+
+        if (hPage && row.isFirst(row))
+            if (player != null) {
+                player.spigot().sendMessage(rowBtns);
+                sender.sendMessage("");
+            }
+
+        while (start <= finish && cmdsInHelp.size() > start) {
+            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
+            start++;
+        }
+
+        if (hPage && !row.isFirst(row))
+            if (player != null) {
+                sender.sendMessage("");
+                player.spigot().sendMessage(rowBtns);
+            }
+    }
+
+    /**
+     * Get the row
+     * */
+    private RowPosition getRow(CommandSender sender, SadMessages msgC) {
+        RowPosition row;
         try {
             row = RowPosition.valueOf(this.msgC.getString("help.page.display"));
         } catch (IllegalArgumentException e) {
             sender.sendMessage(msgC.viaChat(true, this.msgC.getString("plugin-error.row-not-valid")));
-            return;
+            return null;
         }
-
-        if (this.msgC.getBoolean("help.page.enabled")) {
-            BaseComponent[] rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row", sender);
-            start = finish*2;
-
-            while ((start <= finish) && (cmdsInHelp.size() > start)) {
-                if (row.isFirst(row)) {
-                    //sender.sendMessage(msgC.viaChat(false, Arrays.toString(rowBtns)));
-                    sender.sendMessage(msgC.viaChat(false, ""));
-                }
-                //sender.sendMessage(msgC.viaChat(false, cmds.get(start)));
-                if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
-                if (!row.isFirst(row)) {
-                    //sender.sendMessage(msgC.viaChat(false, Arrays.toString(rowBtns)));
-                    sender.sendMessage(msgC.viaChat(false, ""));
-                }
-                start++;
-            }
-        }
-        else {
-            while ((start <= finish) && (cmdsInHelp.size() > start)) {
-                sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
-                if ((start < finish)/* || (start < cmds.size())*/) sender.sendMessage(msgC.viaChat(false, ""));
-                start++;
-            }
-        }
-
+        return row;
     }
 
-    private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
-        while ((start <= finish) && (cmdsInHelp.size() > start)) {
-            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
-            start++;
-        }
-    }
-
+    /**
+     * Send the banner
+     * */
     private void sendBanner(CommandSender sender, FileConfiguration msg, SadMessages msgC) {
         sender.sendMessage(msgC.viaChat(false, msg.getString("help.banner")
                 .replace(place.getHelpCurPage(), Integer.toString(page))
