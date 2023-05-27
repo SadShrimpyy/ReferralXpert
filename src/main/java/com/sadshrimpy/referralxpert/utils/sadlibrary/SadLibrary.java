@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SadLibrary {
 
@@ -16,7 +17,7 @@ public class SadLibrary {
     private SadFiles files;
     private SadDate date;
 
-    private HashMap<String, Date> onlineTime;
+    private HashMap<UUID, Date> onlineTime;
 
     public void initialize() {
         // Instance all the classes
@@ -47,6 +48,11 @@ public class SadLibrary {
 
     public void buildFiles() {
         new FilesBuilder();
+    }
+
+
+    public HashMap<UUID, Date> getOnlineMap() {
+        return onlineTime;
     }
 
     public void destroy() {
