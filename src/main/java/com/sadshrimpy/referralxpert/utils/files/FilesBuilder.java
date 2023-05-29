@@ -14,6 +14,7 @@ public class FilesBuilder {
     {
         defaultFiles.add(new ConfigFile());
         defaultFiles.add(new MessagesFile());
+        defaultFiles.add(new SQLiteFile());
     }
 
     public FilesBuilder() {

@@ -19,6 +19,18 @@
 # Do not modify this value, it may CORRUPT the entire config file!
 version: v1.0.0-Relase
 
+database:
+  enabled: true
+  type: "SQLite"
+  MySQL:
+    hostname: ""
+    port: 33
+    database-name: "referralxpert"
+    username: "root"
+    password: ""
+  SQLite:
+    path: ""
+
 # -----> TRACKING DELLE STATISTICHE DI REFERRAL
 #   Tieni traccia delle statistiche di referral per ciascun utente,
 #     - come il numero di giocatori invitati,

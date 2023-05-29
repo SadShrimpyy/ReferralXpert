@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
-
 public class SadDate {
 
     // Date related
@@ -18,6 +16,8 @@ public class SadDate {
 
     // Getters / Setters
     public String getTime() { return dateFormat.format(Calendar.getInstance().getTime()); }
+    public Date getDefaultDate() { return Calendar.getInstance().getTime(); }
+    public long getDefaultTimeInMills() { return Calendar.getInstance().getTimeInMillis(); }
     public String getTimeNoHour() { return dateFormatNoHour.format(Calendar.getInstance().getTime()); }
     public String getFormat() { return this.dateFormatStr; }
     public String getFormatNoHour() { return this.dateFormatStrNoHour; }
