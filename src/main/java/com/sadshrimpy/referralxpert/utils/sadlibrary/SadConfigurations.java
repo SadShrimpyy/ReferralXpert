@@ -9,6 +9,7 @@ public class SadConfigurations extends SadFiles {
         // YML
             private FileConfiguration configConfiguration;
             private FileConfiguration messagesConfiguration;
+            private FileConfiguration sqliteConfiguration;
 
         // JSON
     /*
@@ -39,6 +40,9 @@ public class SadConfigurations extends SadFiles {
     }
     public void setNewMessages() {
         this.messagesConfiguration = new YamlHandler(super.messagesName).get();
+    }
+    public void setNewSQLite() {
+        this.sqliteConfiguration = new YamlHandler(super.sqliteName).get();
     }
     /*
     public void setNewCurrentConfig() throws IOException {

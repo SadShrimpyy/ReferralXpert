@@ -9,6 +9,16 @@ public class MySQL implements DatabaseSyntax {
     }
 
     @Override
+    public byte connect() {
+        return 0;
+    }
+
+    @Override
+    public boolean close() {
+        return false;
+    }
+
+    @Override
     public boolean tableExists(String table) {
         return false;
     }

@@ -2,9 +2,12 @@ package com.sadshrimpy.referralxpert.databases.sqllite;
 
 import com.sadshrimpy.referralxpert.databases.DatabaseSyntax;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class SQLite implements DatabaseSyntax {
 
@@ -22,16 +25,14 @@ public class SQLite implements DatabaseSyntax {
 
     @Override
     public byte connect() {
-        if (conn == null) {
-            try {
-                conn = DriverManager.getConnection("jdbc:sqlite:simple.db");
-            } catch (SQLException e) {
+        try {
+            if (conn == null)
+                conn = DriverManager.getConnection(new StringBuilder().append("jdbc:sqlite:").append(new File(sadLibrary.generics().getPluginFolder(), sadLibrary.files().getSQLiteName())).toString());
+        } catch (SQLException e) {
 //                throw new RuntimeException(e);
-                return 0;
-            }
-            return 1;
+            return 0;
         }
-        return 2;
+        return 1;
     }
 
     @Override
