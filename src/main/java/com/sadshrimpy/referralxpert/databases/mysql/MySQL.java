@@ -3,14 +3,10 @@ package com.sadshrimpy.referralxpert.databases.mysql;
 import com.sadshrimpy.referralxpert.databases.DatabaseSyntax;
 
 public class MySQL implements DatabaseSyntax {
-    @Override
-    public boolean create(String name) {
-        return false;
-    }
 
     @Override
-    public byte connect() {
-        return 0;
+    public boolean connect(String name) {
+        return false;
     }
 
     @Override
@@ -25,6 +21,11 @@ public class MySQL implements DatabaseSyntax {
 
     @Override
     public boolean databaseExists(String database) {
+        return false;
+    }
+
+    @Override
+    public boolean dumpDatabase(String path) {
         return false;
     }
 
