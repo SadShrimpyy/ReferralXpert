@@ -48,6 +48,6 @@ public class MySQL implements DatabaseSyntax {
 
     @Override
     public ResultSet query(String query) {
-        return false;
+        return null;
     }
 }
