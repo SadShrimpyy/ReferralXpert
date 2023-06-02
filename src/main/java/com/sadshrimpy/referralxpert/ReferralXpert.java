@@ -24,7 +24,7 @@ public final class ReferralXpert extends JavaPlugin {
 
     public static SadLibrary sadLibrary = new SadLibrary();
 
-    @Override
+    @Override //
     public void onEnable() {
         sadLibrary.initialize();
         CommandManager commandManager = new CommandManager();
@@ -37,9 +37,7 @@ public final class ReferralXpert extends JavaPlugin {
 
         // Test
         SQLite sqlite = new SQLite();
-//        System.out.printf("-- Connection: %d\n", sqlite.connect());
-        String s = File.separator;
-        System.out.println("\n\n PATH: " + "jdbc:sqlite:" + new File(sadLibrary.generics().getPluginFolder(), sadLibrary.files().getSQLiteName()));
+        sqlite.connect(sadLibrary.files().getSQLiteName());
     }
 
     private void registerEvents(PluginManager pluginManager) {
