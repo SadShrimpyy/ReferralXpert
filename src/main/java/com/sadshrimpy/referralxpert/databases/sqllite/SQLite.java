@@ -3,10 +3,7 @@ package com.sadshrimpy.referralxpert.databases.sqllite;
 import com.sadshrimpy.referralxpert.databases.DatabaseSyntax;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
@@ -14,13 +11,13 @@ public class SQLite implements DatabaseSyntax {
 
     private Connection conn;
     private Statement stmt;
+    private ResultSet resultSet;
 
     @Override
     public boolean connect(String name) {
         try {
             Class.forName("org.sqlite.JDBC");
-            if (conn == null)
-                conn = DriverManager.getConnection(new StringBuilder().append("jdbc:sqlite:").append(new File(sadLibrary.generics().getPluginFolder(), name)).toString());
+            conn = DriverManager.getConnection(new StringBuilder().append("jdbc:sqlite:").append(new File(sadLibrary.generics().getPluginFolder(), name)).toString());
         } catch (SQLException | ClassNotFoundException e) {
 //            throw new RuntimeException(e);
             return false;
@@ -50,7 +47,18 @@ public class SQLite implements DatabaseSyntax {
     }
 
     @Override // TODO: 5/29/2023 function : dumpDatabase
-    public boolean dumpDatabase(String path) {
+    public boolean dumpDatabase(String outPath) {
+        try {
+            String dumpCommand = "SCRIPT TO '" + outPath + "'";
+            Statement statement = conn.createStatement();
+            statement.execute(dumpCommand);
+            statement.close();
+            sadLibrary.messages().viaConsole(false, sadLibrary.configurations().getConfig().getString("---"));
+            System.out.println("Dump del database SQLite creato con successo.");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -59,21 +67,34 @@ public class SQLite implements DatabaseSyntax {
         return false;
     }
 
-    @Override // TODO: 5/29/2023 function : query
-    public boolean query(String query) {
+    @Override
+    public boolean checkConnection() {
         try {
-            if (stmt == null) {
-                stmt = conn.createStatement();
-                stmt.executeUpdate(query);
-                stmt.close();
-            } else if (stmt.isClosed()) {
-                stmt = conn.createStatement();
-                stmt.executeUpdate(query);
-                stmt.close();
-            }
+            if (conn != null && !conn.isClosed())
+                return true;
+            else
+                return false;
         } catch (SQLException e) {
-//                throw new RuntimeException(e);
+//            e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean whosConnected() {
+        return false;
+    }
+
+    public ResultSet query(String query) {
+        try {
+            stmt = conn.createStatement();
+            resultSet = stmt.executeQuery(query);
+            resultSet.close();
+            stmt.close();
+            return resultSet;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
