@@ -2,15 +2,13 @@ package com.sadshrimpy.referralxpert.databases.mysql;
 
 import com.sadshrimpy.referralxpert.databases.DatabaseSyntax;
 
+import java.sql.ResultSet;
+
 public class MySQL implements DatabaseSyntax {
-    @Override
-    public boolean create(String name) {
-        return false;
-    }
 
     @Override
-    public byte connect() {
-        return 0;
+    public boolean connect(String name) {
+        return false;
     }
 
     @Override
@@ -29,7 +27,27 @@ public class MySQL implements DatabaseSyntax {
     }
 
     @Override
-    public boolean query(String query) {
+    public boolean dumpDatabase(String path) {
         return false;
+    }
+
+    @Override
+    public boolean importDatabase(String path) {
+        return false;
+    }
+
+    @Override
+    public boolean checkConnection() {
+        return false;
+    }
+
+    @Override
+    public boolean whosConnected() {
+        return false;
+    }
+
+    @Override
+    public ResultSet query(String query) {
+        return null;
     }
 }
