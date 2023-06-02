@@ -1,0 +1,13 @@
+name: ReferralXpert
+version: '${project.version}'
+main: com.sadshrimpy.referralxpert.ReferralXpert
+api-version: 1.19
+authors: [SadShrimpy]
+description: //
+website: //
+commands:
+  referralxpert:
+    aliases:
+      - rxp
+      - ref
+      - referral
