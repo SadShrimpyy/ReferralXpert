@@ -24,7 +24,7 @@ public final class ReferralXpert extends JavaPlugin {
 
     public static SadLibrary sadLibrary = new SadLibrary();
 
-    @Override //
+    @Override
     public void onEnable() {
         sadLibrary.initialize();
         CommandManager commandManager = new CommandManager();
