@@ -28,9 +28,9 @@ public class ReloadCommand implements CommandSyntax {
     public void perform(CommandSender sender) {
         sadLibrary.buildFiles();
         if (sadLibrary.configurations().reloadFiles())
-            sender.sendMessage(sadLibrary.messages().viaChat(true, sadLibrary.configurations().getMessages().getString("reloaded.correctly")));
+            sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("reloaded.correctly")));
         else
-            sender.sendMessage(sadLibrary.messages().viaChat(true, sadLibrary.configurations().getMessages().getString("reloaded.incorrectly")));
+            sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("reloaded.incorrectly")));
 
     }
 }

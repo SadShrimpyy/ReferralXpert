@@ -4,17 +4,9 @@ public enum DatabaseType {
     SQLite("SQLite"),
     MySQL("MySQL");
 
-    private String value;
+    private String type;
 
-    DatabaseType(String value) {
-        this.value = value;
-    }
-
-    public boolean isMySQL(DatabaseType type) {
-        return type.equals(MySQL);
-    }
-
-    public boolean isSQLite(DatabaseType type) {
-        return type.equals(SQLite);
+    DatabaseType(String type) {
+        this.type = type;
     }
 }

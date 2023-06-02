@@ -19,17 +19,46 @@
 # Do not modify this value, it may CORRUPT the entire config file!
 version: v1.0.0-Relase
 
-database:
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Databases                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# With databases, the plugin can store information necessary for its operation.
+# For example, the total time it took to use a referral code, the number of players invited,
+# the number of players who used your code, and, when...
+
+database: #todo db
+    # By disabling this entry, you will not be able to encapsulate any information
   enabled: true
+    # Select the type of database you want to use from:
+    #   -> MySQL: client-server, database that manages the entire database, via an external host;
+    #   -> SQLite: serverless, file-based database engine that stores the entire database in a single file (~/plugins/ReferralXpert/refXsqlite.db).
   type: "SQLite"
   MySQL:
-    hostname: ""
-    port: 33
+    hostname: "localhost"
+    port: 3308
     database-name: "referralxpert"
     username: "root"
     password: ""
   SQLite:
-    path: ""
+    encrypt-data:
+        # Select whether you want to encrypt all data.
+      enabled: true
+        # Select the encryption algorithm you most prefer. Those supported are:
+        #  -> AES-128
+        #  -> AES-192
+        #  -> AES-256
+      algorithm: "AES-128"
+        # # --> IMPORTANT <-- # #
+        # For security reasons, the encryption key will have to be placed in the file specified here.
+        # This file will AUTOMATICALLY GENERATE A NEW KEY EACH TIME IT IS RECREATED!!
+        #  Should you wish to regenerate a key, use the /rxp secret regen-sql-key command.
+        #  Alternatively, create a key that respects the parameters of the selected encryption algorithm.
+      key-file: "secret-key-sqlite.txt"
+
 
 # -----> TRACKING DELLE STATISTICHE DI REFERRAL
 #   Tieni traccia delle statistiche di referral per ciascun utente,

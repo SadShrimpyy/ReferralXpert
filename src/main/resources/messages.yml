@@ -85,6 +85,11 @@ command: # Command's related messages
 
 plugin-error: # Plugin's related errors
   row-not-valid: "&7The row value provided does &cnot &7meet the &eparameters&7! Check the &e&omessages.yml &7file, at &6&ohelp.page.display&7 path."
+  no-database-detected: "&cNO database has been detected. &7Therefore the plugin will &cnot be able to keep track of player advancements. &7It is &erecommended &7to enable its use, via the \"&e&oconfig.yml&7\" file by setting \"&b&odatabase.enabled&7\" to &a&otrue&7!"
+  database-not-recognised: "&7The &6type of database &7you want to use has &cnot been recognized&7! Please check the entry \"&b&odatabase.type&7\" in the file \"&e&oconfig.yml&7\"."
+  could-not-connect-db: "&cCould not connect &7to &c%db-type% &7database. &6Report &7this &cerror &7with the code: &e&o%db-exec%&7!"
+  secret-key-generated: "&7The SQLite &esecret key &c&lhas been generated&7. You can found it in the file: \"&b&osecret-key-sqlite.txt&7\"."
+  secret-key-re-generated: "&7The SQLite &esecret key &c&lhas been regenerated&7. To &6restore the previous key &7run the command &e&o&l/rxp secret restore&7, a file called \"&b&osecret-key-sqlite.backup&7\" will be created, &athe restored key will be found inside it&7."
 
 
 ############################################################
@@ -155,4 +160,5 @@ help:
     - "&c->&r &6&o/rxp reload &8- &7reload the plugin."
     - "&6->&r &6&o/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
     - "&e->&r &6&o/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
+    - "&e->&r &6&o/rxp secret regen-sql-key &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
     - "&c-> &ePlugin &lalias &8- &7referralxpert, rxp, ref, referral."

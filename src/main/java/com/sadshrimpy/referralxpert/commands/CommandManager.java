@@ -38,7 +38,7 @@ public class CommandManager implements CommandExecutor {
 
         if (!subCommandsMap.containsKey(subCommandName)) {
             // The command is not present
-            sender.sendMessage(sadLibrary.messages().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-found")
+            sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-found")
                     .replace(placeholders.getPlayerName(), sender.getName())
                     .replace(placeholders.getCommand(), commandPlaceholderBuilder(label, args))));
             //subCommandsMap.get("credits").apply(args).perform(sender);
@@ -50,14 +50,14 @@ public class CommandManager implements CommandExecutor {
 
         /** Check permission(s) */
         if (permission == null) {
-            sender.sendMessage(sadLibrary.messages().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-found")
+            sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-found")
                     .replace(placeholders.getPlayerName(), sender.getName())
                     .replace(placeholders.getCommand(), commandPlaceholderBuilder(label, args))));
             return true;
         }
 
         if (!sender.hasPermission(permission)) {
-            sender.sendMessage(sadLibrary.messages().viaChat(true, sadLibrary.configurations().getMessages().getString("player.no-permission")
+            sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("player.no-permission")
                     .replace(placeholders.getPlayerName(), sender.getName())
                     .replace(placeholders.getCommand(), commandPlaceholderBuilder(label, args))
                     .replace(placeholders.getPermission(), permission)));
@@ -66,7 +66,7 @@ public class CommandManager implements CommandExecutor {
 
         /** Check args length is valid */
         if (args.length != subCommand.expectedArgs()) {
-            sender.sendMessage(sadLibrary.messages().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-complete")
+            sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-complete")
                     .replace(placeholders.getPlayerName(), sender.getName())
                     .replace(placeholders.getCommand(), commandPlaceholderBuilder(label, args))));
             return true;

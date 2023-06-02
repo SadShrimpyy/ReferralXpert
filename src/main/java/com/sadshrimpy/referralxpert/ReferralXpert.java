@@ -2,7 +2,6 @@ package com.sadshrimpy.referralxpert;
 
 import com.sadshrimpy.referralxpert.commands.CommandManager;
 import com.sadshrimpy.referralxpert.commands.TabCompleterManager;
-import com.sadshrimpy.referralxpert.databases.sqllite.SQLite;
 import com.sadshrimpy.referralxpert.events.PlayerJoinEv;
 import com.sadshrimpy.referralxpert.events.PlayerQuitEv;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadLibrary;
@@ -17,7 +16,6 @@ import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.HashMap;
 
 public final class ReferralXpert extends JavaPlugin {
@@ -27,6 +25,7 @@ public final class ReferralXpert extends JavaPlugin {
     @Override
     public void onEnable() {
         sadLibrary.initialize();
+
         CommandManager commandManager = new CommandManager();
         TabCompleterManager completerManager = new TabCompleterManager();
         PluginCommand baseCommand = getCommand("referralxpert");
@@ -34,10 +33,6 @@ public final class ReferralXpert extends JavaPlugin {
 
         registerEvents(pluginManager);
         registerCommands(commandManager, completerManager, baseCommand);
-
-        // Test
-        SQLite sqlite = new SQLite();
-        sqlite.connect(sadLibrary.files().getSQLiteName());
     }
 
     private void registerEvents(PluginManager pluginManager) {

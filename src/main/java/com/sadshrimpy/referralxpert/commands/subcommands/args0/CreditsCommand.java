@@ -30,6 +30,6 @@ public class CreditsCommand implements CommandSyntax {
                 .append("\n&8 -> &eVersion&7: &a").append(sadLibrary.generics().getVersion()).append("&r")
                 .append("\n&8 -> &7Please write &2/referralxpert help &7for a list of commands").append("&r")
                 .append("\n&7&m&l              &7&l< &c&lReferral&6&lX&e&lpert &7&l>&m              ");
-        sender.sendMessage(sadLibrary.messages().viaChat(false, msg.toString()));
+        sender.sendMessage(sadLibrary.chat().viaChat(false, msg.toString()));
     }
 }

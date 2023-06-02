@@ -1,6 +1,6 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 
-import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
+import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -55,24 +55,24 @@ public class ButtonsRow extends HelpCommand {
      */
     public TextComponent getRowHoverable(String path) {
         StringBuilder sB1 = new StringBuilder();
-        SadMessages msg = sadLibrary.messages();
+        SadChat chat = sadLibrary.chat();
         HoverEvent[] aHE = new HoverEvent[2];
 
         // TODO: 5/26/2023 check the page and not go over the max :)
         ClickEvent[] aCE = new ClickEvent[2];
         if (page > 1) {
-            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(msg.translateColors(msgC.getString("help.page.button-previous.hover"))));
+            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-previous.hover"))));
             aCE[0] = new ClickEvent(ClickEvent.Action.RUN_COMMAND, sB1.append("/rxp help ").append(page - 1).toString());
         } else
-            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(msg.translateColors(msgC.getString("help.page.button-previous.first-page"))));
+            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-previous.first-page"))));
 
         sB1.setLength(0);
 
         if (page < pageMax) {
-            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(msg.translateColors(msgC.getString("help.page.button-next.hover"))));
+            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-next.hover"))));
             aCE[1] = new ClickEvent(ClickEvent.Action.RUN_COMMAND, sB1.append("/rxp help ").append(page + 1).toString());
         } else
-            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(msg.translateColors(msgC.getString("help.page.button-next.last-page"))));
+            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-next.last-page"))));
 
         sB1.setLength(0);
         sB1.append(msgC.getString(path));
@@ -81,16 +81,16 @@ public class ButtonsRow extends HelpCommand {
         byte[] b = getBoundaries(sB1);
         aS[0] = getSubString(sB1, b, "help.page.button-previous.text", super.place.getHelpBtnPrev());
         aS[1] = getSubString(sB1, b, "help.page.button-next.text", super.place.getHelpBtnNext());
-        aTC[0] = constructComponent((byte) 0, msg.translateColors(aS[0]), aHE, aCE);
-        aTC[1] = constructComponent((byte) 1, msg.translateColors(aS[1]), aHE, aCE);
+        aTC[0] = constructComponent((byte) 0, chat.translateColors(aS[0]), aHE, aCE);
+        aTC[1] = constructComponent((byte) 1, chat.translateColors(aS[1]), aHE, aCE);
 
-        return constructComponent(sB1, msg);
+        return constructComponent(sB1, chat);
     }
 
     /**
      * Construct the final component to be returned
      * */
-    private TextComponent constructComponent(StringBuilder sB1, SadMessages msg) {
+    private TextComponent constructComponent(StringBuilder sB1, SadChat msg) {
         byte[] ps = getBoundaries(sB1);
         TextComponent t = new TextComponent();
         t.addExtra(msg.translateColors(sB1.substring(0, ps[0])));

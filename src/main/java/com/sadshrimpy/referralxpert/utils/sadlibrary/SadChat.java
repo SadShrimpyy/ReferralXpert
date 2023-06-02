@@ -6,7 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
-public class SadMessages {
+public class SadChat {
     private final ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
     private final String prefixErr = "&4ERROR &e-> &r";
     private final String defaultPrefix = "&7[&cReferral&6X&epert&7] &8> &7";

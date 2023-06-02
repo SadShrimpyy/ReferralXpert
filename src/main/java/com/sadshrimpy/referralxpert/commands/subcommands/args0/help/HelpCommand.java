@@ -1,7 +1,7 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.help;
 
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
-import com.sadshrimpy.referralxpert.utils.sadlibrary.SadMessages;
+import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -58,7 +58,7 @@ public class HelpCommand implements CommandSyntax {
     @Override
     public void perform(CommandSender sender) {
         cmdsInHelp = msgC.getStringList("help.list");
-        SadMessages sMsg = sadLibrary.messages();
+        SadChat sMsg = sadLibrary.chat();
 
 /*
   // todo select the amount displayed
@@ -89,7 +89,7 @@ public class HelpCommand implements CommandSyntax {
     /**
      * Print the menu without the space
      * */
-    private void printWithSpace(CommandSender sender, SadMessages msgC) {
+    private void printWithSpace(CommandSender sender, SadChat msgC) {
 /*
         int remainCmds = cmds.size() - (size * (page - 1));
         if (remainCmds < size) // if remain cmds ...
@@ -126,7 +126,7 @@ public class HelpCommand implements CommandSyntax {
     /**
      * Print the menu without the space
      * */
-    private void printWithoutSpace(CommandSender sender, SadMessages msgC) {
+    private void printWithoutSpace(CommandSender sender, SadChat msgC) {
         RowPosition row;
 
         row = getRow(sender, msgC);
@@ -157,7 +157,7 @@ public class HelpCommand implements CommandSyntax {
     /**
      * Get the row
      * */
-    private RowPosition getRow(CommandSender sender, SadMessages msgC) {
+    private RowPosition getRow(CommandSender sender, SadChat msgC) {
         RowPosition row;
         try {
             row = RowPosition.valueOf(this.msgC.getString("help.page.display"));
@@ -171,7 +171,7 @@ public class HelpCommand implements CommandSyntax {
     /**
      * Send the banner
      * */
-    private void sendBanner(CommandSender sender, FileConfiguration msg, SadMessages msgC) {
+    private void sendBanner(CommandSender sender, FileConfiguration msg, SadChat msgC) {
         sender.sendMessage(msgC.viaChat(false, msg.getString("help.banner")
                 .replace(place.getHelpCurPage(), Integer.toString(page))
                 .replace(place.getHelpMaxPage(), Integer.toString(pageMax))));

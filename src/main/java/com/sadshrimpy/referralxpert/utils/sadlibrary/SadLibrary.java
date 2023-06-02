@@ -12,8 +12,9 @@ public class SadLibrary {
     private SadConfigurations configurations;
     private SadPlaceholders placeholders;
     private SadPermissions permissions;
+    private SadDatabase connection;
     private SadGenerics generics;
-    private SadMessages messages;
+    private SadChat chat;
     private SadFiles files;
     private SadDate date;
 
@@ -25,13 +26,16 @@ public class SadLibrary {
         this.placeholders = new SadPlaceholders();
         this.permissions = new SadPermissions();
         this.date = new SadDate();
-        this.messages = new SadMessages();
+        this.chat = new SadChat();
         this.files = new SadFiles();
         this.configurations = new SadConfigurations();
+        this.connection = new SadDatabase();
 
         this.generics.displayHeader();
         this.buildFiles();
-        //this.buildDefaultJson();
+
+        this.connection.getConnection();
+//        this.buildDefaultJson();
 
         this.onlineTime = new HashMap<>(Bukkit.getOnlinePlayers().size());
     }
@@ -41,9 +45,10 @@ public class SadLibrary {
     public SadPlaceholders placeholders() { return this.placeholders; }
     public SadPermissions permissions() { return this.permissions; }
     public SadGenerics generics() { return this.generics; }
-    public SadMessages messages() { return this.messages; }
+    public SadChat chat() { return this.chat; }
     public SadFiles files() { return this.files; }
     public SadDate date() { return this.date; }
+    public SadDatabase database() { return this.connection; }
 
 
     public void buildFiles() {
@@ -60,9 +65,10 @@ public class SadLibrary {
         this.placeholders = null;
         this.permissions = null;
         this.date = null;
-        this.messages = null;
+        this.chat = null;
         this.files = null;
         this.configurations = null;
+        this.connection = null;
 
         this.onlineTime = null;
     }
