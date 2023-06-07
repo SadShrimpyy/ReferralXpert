@@ -29,12 +29,12 @@ public class SadLibrary {
         this.chat = new SadChat();
         this.files = new SadFiles();
         this.configurations = new SadConfigurations();
-        this.connection = new SadDatabase();
 
         this.generics.displayHeader();
         this.buildFiles();
 
-        this.connection.getConnection();
+        this.connection = new SadDatabase();
+        this.connection.connect();
 //        this.buildDefaultJson();
 
         this.onlineTime = new HashMap<>(Bukkit.getOnlinePlayers().size());

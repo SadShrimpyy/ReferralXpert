@@ -49,8 +49,10 @@ database: #todo db
       enabled: true
         # Select the encryption algorithm you most prefer. Those supported are:
         #  -> AES-128
-        #  -> AES-192
-        #  -> AES-256
+        #  -> DES-56
+        #  -> DESede-168
+        #  -> HmacSHA1
+        #  -> HmacSHA256
       algorithm: "AES-128"
         # # --> IMPORTANT <-- # #
         # For security reasons, the encryption key will have to be placed in the file specified here.

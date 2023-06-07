@@ -160,5 +160,5 @@ help:
     - "&c->&r &6&o/rxp reload &8- &7reload the plugin."
     - "&6->&r &6&o/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
     - "&e->&r &6&o/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
-    - "&e->&r &6&o/rxp secret regen-sql-key &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
+    - "&e->&r &6&o/rxp secret regen-sql-key &8- &7regenerate the &bsecret key&7." #todo this command
     - "&c-> &ePlugin &lalias &8- &7referralxpert, rxp, ref, referral."
