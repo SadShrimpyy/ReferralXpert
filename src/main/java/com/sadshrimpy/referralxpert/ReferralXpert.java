@@ -39,8 +39,7 @@ public final class ReferralXpert extends JavaPlugin {
         HashMap<Class<? extends Event>, EventExecutor> events = new HashMap<>(1);
         events.put(PlayerJoinEvent.class, new PlayerJoinEv().executor());
         events.put(PlayerQuitEvent.class, new PlayerQuitEv().executor());
-        Listener listener = new Listener() {
-        };
+        Listener listener = new Listener() {};
 
         events.forEach((ev, ex) -> pluginManager.registerEvent(ev, listener, EventPriority.MONITOR, ex, this, true));
     }

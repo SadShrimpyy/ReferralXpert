@@ -19,6 +19,8 @@
 # Do not modify this value, it may CORRUPT the entire config file!
 version: v1.0.0-Relase
 
+# Please keep this true <3
+bstats: true # todo
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -30,7 +32,7 @@ version: v1.0.0-Relase
 # For example, the total time it took to use a referral code, the number of players invited,
 # the number of players who used your code, and, when...
 
-database: #todo db
+database: #todo SQLite & MySQL
     # By disabling this entry, you will not be able to encapsulate any information
   enabled: true
     # Select the type of database you want to use from:
@@ -62,6 +64,27 @@ database: #todo db
       key-file: "secret-key-sqlite.txt"
 
 
+############################################################
+# +------------------------------------------------------+ #
+# |                  Referral Options                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Here you can change all the settings related to the mechanics offered by the plugin.
+
+        # ---------------------------------- #
+      # # # THE CODES ARE CASE-SENSITIVE ! # # #
+        # ---------------------------------- #
+
+referral:
+    # If true the players with the same ip, can not refer each other.
+  ip-check: true
+    # Set the maximum number of times a player can redeem ANY code, it is recommended to keep this value at -1 (infinite times).
+  redeem-per-player: -1
+
+
+
+# FORSE - idee:
 # -----> TRACKING DELLE STATISTICHE DI REFERRAL
 #   Tieni traccia delle statistiche di referral per ciascun utente,
 #     - come il numero di giocatori invitati,

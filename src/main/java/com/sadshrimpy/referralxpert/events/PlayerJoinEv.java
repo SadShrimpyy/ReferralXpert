@@ -13,7 +13,7 @@ public class PlayerJoinEv implements Listener {
     public EventExecutor executor() {
         return (listener, eventPassed) -> {
             PlayerJoinEvent event = (PlayerJoinEvent) eventPassed;
-            sadLibrary.getOnlineMap().put(event.getPlayer().getUniqueId(), sadLibrary.date().getDefaultDate());
+            sadLibrary.codes().getOnlineMap().put(event.getPlayer().getUniqueId(), sadLibrary.date().getDefaultDate());
         };
     }
 

@@ -23,9 +23,11 @@ public class SadPlaceholders {
             private final String helpNextPage = "%help-next-page%";
             // Buttons
             private final String helpBtnNext = "%help-button-next%";
-
-
-    private final String helpBtnPrev = "%help-button-previous%";
+            private final String helpBtnPrev = "%help-button-previous%";
+        // Referral
+            // Code
+            private final String code = "%code%";
+            private final String codeMaxUsages = "%code-max-usages%";
 
 
     /** Player's related */
@@ -70,5 +72,13 @@ public class SadPlaceholders {
             // Buttons
             public String getHelpBtnPrev() {
                 return helpBtnPrev;
+            }
+        // Referral
+            // Code
+            public String getCode() {
+                return code;
+            }
+            public String getCodeMaxUsages() {
+                return codeMaxUsages;
             }
 }

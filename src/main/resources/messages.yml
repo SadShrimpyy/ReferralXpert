@@ -55,17 +55,17 @@ reloaded:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Here you can edit all the messages that are going to be used via chat
-# Before each node you will find the explanation and the context in which the message will be shown
+# Here you can edit all the messages that are going to be used via chat.
+# Before each node you will find the explanation and the context in which the message will be shown.
 
 # In the default message line, you will find all the PLACEHOLDERS that that command will accept as input,
-# as well as a description of their usage. They can be used at will
+# as well as a description of their usage. They can be used at will.
 
-player: # Player's related messages
-    # When a player try to execute a command without the right permission
-    #   -> %player-name% : name of the player who executed the command
-    #   -> %permission% : name of the permission the player need to perform the command
-    #   -> %command% : name of the command performed
+player: # Player's related messages:
+    # When a player try to execute a command without the right permission.
+    #   -> %player-name% : name of the player who executed the command;
+    #   -> %permission% : name of the permission the player need to perform the command;
+    #   -> %command% : name of the command performed.
   no-permission: "&7Hey &e%player-name%&7, you &cdon't have &7the permission (&8%permission%&7), to execute: &b%command%&7."
     # When the plugin can't find the player involved (e.g. in a command...)
     # For example if you need to send a gift to Hologiman, if hologiman aren't online, hologiman will be the involved player
@@ -73,15 +73,27 @@ player: # Player's related messages
     #   -> %player-involevd% : name of the involved player
   not-found: "&7Hey &e%player-name%&7, sorry but the player &f%player-target% &cisn't &7found&7."
 
-command: # Command's related messages
-    # When a player try to execute a command that isn't exist
-    #   -> %player-name% : name of the player who executed the command
-    #   -> %command% : name of the command performed
+command: # Command's related messages:
+    # When a player try to execute a command that isn't exist.
+    #   -> %player-name% : name of the player who executed the command;
+    #   -> %command% : name of the command performed.
   not-found: "&7Hey &e%player-name%&7, sorry but the requested command &7(&b%command%&7) &cisn't &7found&7."
-    # When a player try to execute a command without all the necessary parameters
-    #   -> %player-name% : name of the player who executed the command
-    #   -> %command% : name of the command performed
+    # When a player try to execute a command without all the necessary parameters.
+    #   -> %player-name% : name of the player who executed the command;
+    #   -> %command% : name of the command performed.
   not-complete: "&7Hey &e%player-name%&7, sorry but the requested command &7(&b%command%&7) &cdoes't &7meet the expected &eparameters&7. &7&oSee the help page for more information&7."
+
+referral: # Referral's related messages:
+  creation: # Creation of a new code:
+      # When you successfully create a new code.
+      # -> %player-name% : name of the player who the code's headed
+      # -> %code-max-usages% : maximum uses of the code
+      # -> %code% : name of the code that was created
+    created: "&a&lGood&7! The code: &e&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s)."
+      # When you try to create a code, but it already exists.
+      # -> %code% : name of the code you tried to create
+    cannot-create: "&c&lSorry&7! But the &e&o%code% &ccan't &7be created! It probably &balready exists &7:("
+
 
 plugin-error: # Plugin's related errors
   row-not-valid: "&7The row value provided does &cnot &7meet the &eparameters&7! Check the &e&omessages.yml &7file, at &6&ohelp.page.display&7 path."
@@ -147,11 +159,11 @@ help:
   list:
     - "&c-> &7&oHey! You can see the help menu here. Open the chat and hover your mouse cursor, over a command to see more information. Click the &o\"change page\" &7buttons to scroll through the help list."
     - "&6->&r &6&o/rxp help <page-number> &8- &7view the generic help menu (this)."
-    - "&e->&r &6&o/rxp create <code> <maximum-usages> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7. &e&oNote: if you set <maximum> to -1, will be any tmes reedemable, and if the <player> isn't specified, the holder will be you." #todo this command
+    - "&e->&r &6&o/rxp create <code> <maximum-usages> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7. &e&oNote: if you set <maximum> to any value below 0, will be any tmes reedemable, and if the <player> isn't specified, the holder will be you." #todo this command
     - "&c->&r &6&o/rxp check &8- &7check the amount of referrals you have." #todo this command
     - "&6->&r &6&o/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
     - "&e->&r &6&o/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
-    - "&c->&r &6&o/rxp score&8- &7see your personal referral score." #todo this command
+    - "&c->&r &6&o/rxp score &8- &7see your personal referral score." #todo this command
     - "&6->&r &6&o/rxp scoreboard <value> &8- &7see the top <value> player(s) with the highest referral score." #todo this command
     - "&e->&r &6&o/rxp scoreboard-gui &8- &7see the top player(s) with the highest referral score in the GUI." #todo this command
     - "&c->&r &6&o/rxp set <player> <value> &8- &7set the referral score of a player to a specific value." #todo this command
