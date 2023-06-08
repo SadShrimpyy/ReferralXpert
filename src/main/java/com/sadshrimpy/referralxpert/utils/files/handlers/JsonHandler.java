@@ -52,10 +52,10 @@ public class JsonHandler<T> {
         //File file = new File(filePath, fileName);
         if (!file.exists()) {
             if (file.createNewFile()) {
-                sadLibrary.messages().viaConsole(false, "&rThe file &f" + file.getName() + "&r: &rwas created &acorrectly &rusing defaults values.");
+                sadLibrary.chat().viaConsole(false, "&rThe file &f" + file.getName() + "&r: &rwas created &acorrectly &rusing defaults values.");
                 return true;
             } else {
-                sadLibrary.messages().viaConsole(false, "&eThe file &f" + file.getName() + "&r: &ccannot &rbe created.");
+                sadLibrary.chat().viaConsole(false, "&eThe file &f" + file.getName() + "&r: &ccannot &rbe created.");
                 return false;
             }
         }

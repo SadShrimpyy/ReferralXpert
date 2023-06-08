@@ -21,6 +21,6 @@ public class ConfigFile implements DefaultFiles {
             //sadLibrary.configurations().getConfigConfigurations();
             sadLibrary.configurations().setNewConfig();
         else
-            sadLibrary.messages().viaConsole(true, "&rThe file: &f" + getName() + "&r &ccan't &rbe created.");
+            sadLibrary.chat().viaConsole(true, "&rThe file: &f" + getName() + "&r &ccan't &rbe created.");
     }
 }

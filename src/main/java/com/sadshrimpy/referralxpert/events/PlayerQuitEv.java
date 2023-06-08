@@ -17,9 +17,9 @@ public class PlayerQuitEv implements Listener {
     public EventExecutor executor() {
         return (listener, eventPassed) -> {
             PlayerQuitEvent event = (PlayerQuitEvent) eventPassed;
-            if (sadLibrary.getOnlineMap().isEmpty()) return;
+            if (sadLibrary.codes().getOnlineMap().isEmpty()) return;
 
-            final HashMap<UUID, Date> oMap = sadLibrary.getOnlineMap();
+            final HashMap<UUID, Date> oMap = sadLibrary.codes().getOnlineMap();
             long diff = (sadLibrary.date().getDefaultTimeInMills() - oMap.get(event.getPlayer().getUniqueId()).getTime()) / 1000;
         };
     }

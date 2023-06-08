@@ -30,7 +30,7 @@ public class FilesBuilder {
             try {
                 fileIndex.perform();
             } catch (Exception e) {
-                sadLibrary.messages().viaConsole(true, "&rThe file: &f" + fileIndex.getName() + "&r &ccan't &rbe initialized.");
+                sadLibrary.chat().viaConsole(true, "&rThe file: &f" + fileIndex.getName() + "&r &ccan't &rbe initialized.");
                 throw new RuntimeException(e);
             }
         }
@@ -53,7 +53,7 @@ public class FilesBuilder {
                 if (!sadLibrary.configurations().getConfig().getString("version").equals(sadLibrary.generics().getVersion())) {
                     // WRONG version
                     // TODO: 24/02/2023 Check if is one of the previous (once uploaded) then apply the new changes. Else remove the config:
-                    sadLibrary.messages().viaConsole(true, "&cThe plugin version is incorrect." +
+                    sadLibrary.chat().viaConsole(true, "&cThe plugin version is incorrect." +
                             "&cThe file: &econfig.yml&c, has been &ericarged &rusing &edefault values&c.");
                     sadLibrary.generics().getPlugin().saveResource(file.getName(), true);
                 }
