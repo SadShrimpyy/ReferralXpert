@@ -1,5 +1,6 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.create;
 
+import com.sadshrimpy.referralxpert.codes.Codes;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
@@ -39,7 +40,7 @@ public class CreateCommand implements CommandSyntax {
     @Override
     public void perform(CommandSender sender) {
 //        /rxp create <code> <maximum-usages> <player>
-        if (!sadLibrary.codes().getCodes().add(cmdArgs[1]))
+        if (sadLibrary.codes().getCodes().containsKey(cmdArgs[1]))
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.cannot-create")
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
         else {
@@ -51,7 +52,7 @@ public class CreateCommand implements CommandSyntax {
                     .replace(place.getCodeMaxUsages(), Integer.toString((int) usages))
                     .replace(place.getPlayerName(), cmdArgs[3])));
 
-            // TODO: 6/8/2023 add the code to the list
+            sadLibrary.codes().getCodes().put(cmdArgs[1], new Codes(cmdArgs[1], usages));
         }
     }
 }
