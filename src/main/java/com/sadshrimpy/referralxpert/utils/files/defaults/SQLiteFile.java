@@ -9,15 +9,15 @@ public class SQLiteFile  implements DefaultFiles {
 
     @Override
     public String getName() {
-        return sadLibrary.files().getSQLiteName();
+        return sadLibrary.files().getSqliteName();
     }
 
     @Override
     public void perform() throws Exception {
-        if (new YamlHandler(sadLibrary.files().getSQLiteName()).initialize())
+        if (new YamlHandler(sadLibrary.files().getSqliteName()).initialize())
             sadLibrary.configurations().setNewSQLite();
         else
-            sadLibrary.messages().viaConsole(true, "&rThe file: &f" + getName() + "&r &ccan't &rbe created.");
+            sadLibrary.chat().viaConsole(true, "&rThe file: &f" + getName() + "&r &ccan't &rbe created.");
     }
 }
 

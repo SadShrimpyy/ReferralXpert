@@ -24,11 +24,11 @@ public class YamlHandler implements FilesIn {
         if (!file.exists()) {
             if(file.createNewFile()) {
                 sadLibrary.generics().getPlugin().saveResource(file.getName(), true);
-                sadLibrary.messages().viaConsole(false, "&rThe file &f" + file.getName() + "&r: &rwas created &acorrectly &rusing defaults values.");
+                sadLibrary.chat().viaConsole(false, "&rThe file &f" + file.getName() + "&r: &rwas created &acorrectly &rusing defaults values.");
                 configuration = get();
             }
             else {
-                sadLibrary.messages().viaConsole(false, "&eThe file &f" + file.getName() + "&r: &ccannot &rbe created.");
+                sadLibrary.chat().viaConsole(false, "&eThe file &f" + file.getName() + "&r: &ccannot &rbe created.");
                 configuration = null;
                 returned = false;
             }
@@ -43,7 +43,7 @@ public class YamlHandler implements FilesIn {
             configuration.save(file.getName());
             //System.out.println(file.getName() + " saved");
         } catch (IOException e) {
-            sadLibrary.messages().viaConsole(true, "&cError &rencountered while uploading the file &f" + file.getName() + "&r.");
+            sadLibrary.chat().viaConsole(true, "&cError &rencountered while uploading the file &f" + file.getName() + "&r.");
         }
     }
     @Override

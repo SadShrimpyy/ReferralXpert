@@ -19,6 +19,6 @@ public class MessagesFile implements DefaultFiles {
             //sadLibrary.configurations().getMessagesConfigurations();
             sadLibrary.configurations().setNewMessages();
         else
-            sadLibrary.messages().viaConsole(true, "&rThe file: &f" + getName() + "&r &ccan't &rbe created.");
+            sadLibrary.chat().viaConsole(true, "&rThe file: &f" + getName() + "&r &ccan't &rbe created.");
     }
 }
