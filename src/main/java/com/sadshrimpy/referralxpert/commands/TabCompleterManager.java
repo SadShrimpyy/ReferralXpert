@@ -1,10 +1,12 @@
 package com.sadshrimpy.referralxpert.commands;
 
+import com.google.common.io.ByteSource;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 //import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -15,11 +17,12 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class TabCompleterManager implements TabCompleter {
 
+    private FileConfiguration msg = sadLibrary.configurations().getMessages();
     private CommandSender sender;
     private String[] args;
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public LinkedList<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
         this.sender = sender;
         this.args = args;
@@ -35,53 +38,66 @@ public class TabCompleterManager implements TabCompleter {
 
             case 3:
                 return thirdArg(permission);
+
+            case 4:
+                return fourthArg(permission);
         }
 
-        return new ArrayList<>();
+        return new LinkedList<>();
     }
 
 
-    private List<String> firstArg(boolean permission) {
-        if (permission)
-            return StringUtil.copyPartialMatches(args[0], Arrays.asList("help", "give", "retrive", "reload"), new ArrayList<>());
+    private LinkedList<String> firstArg(boolean permission) {
+        if (!permission)
+            return StringUtil.copyPartialMatches(args[0], Collections.singletonList("<You don't have the permission>"), new LinkedList<String>());
         else
-            return StringUtil.copyPartialMatches(args[0], Collections.singletonList("<You don't have the permission>"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("help", "create", "check", "goals", "score", "scoreboard", "scoreboard-gui", "set", "maximum", "redeem", "reload", "reset", "time", "secret"), new LinkedList<>());
     }
 
-    private List<String> secondArg(boolean permission) {
-        if (permission)
-            switch (args[0].toLowerCase()) {
-                case "give":
-                    List<String> players = new ArrayList<>(Bukkit.getOnlinePlayers().size());
-                    for (Player player : Bukkit.getOnlinePlayers())
-                        players.add(player.getName());
-                    players.add("*");
-                    return StringUtil.copyPartialMatches(args[1], players, new ArrayList<>());
+    private LinkedList<String> secondArg(boolean permission) {
+        if (!permission)
+            return StringUtil.copyPartialMatches(args[1], Collections.singletonList("<You don't have the permission>"), new LinkedList<String>());
 
-                case "retrive":
-                    // /Weaponized retrive <eggID>
-                    return StringUtil.copyPartialMatches(args[1], getItems(sadLibrary.configurations().getConfig()), new ArrayList<>());
-            }
-        else
-            return StringUtil.copyPartialMatches(args[1], Collections.singletonList("<You don't have the permission>"), new ArrayList<>());
-        return null;
-    }
+        switch (args[0].toLowerCase()) {
+            case "help":
+                LinkedList<String> secArgs = new LinkedList<>();
+                int size = 3;
+                int sz = msg.getStringList("help.list").size();
+                int pageMax = (byte) ((sz % size) == 0 ? sz / size : sz / size + 1);
+                for (int i = 1; i <= pageMax; i++)
+                    secArgs.add(String.valueOf(i));
+                return StringUtil.copyPartialMatches(args[1], secArgs, new LinkedList<String>());
 
-
-    private List<String> thirdArg(boolean permission) {
-        if (permission) {
-            switch (args[0].toLowerCase()) {
-                case "give":
-                    // /Weaponized give <player/*> <eggID>
-                    return StringUtil.copyPartialMatches(args[2], getItems(sadLibrary.configurations().getConfig()), new ArrayList<>());
-            }
+            case "create":
+                return StringUtil.copyPartialMatches(args[1], Collections.singleton("<Insert your code here>"), new LinkedList<String>());
         }
         return null;
     }
 
-    private static List<String> getItems(FileConfiguration config) {
-        List<String> objs = new ArrayList<>();
-        Objects.requireNonNull(config.getConfigurationSection("egg-item")).getKeys(false).forEach(str -> objs.add(str));
-        return objs;
+
+    private LinkedList<String> thirdArg(boolean permission) {
+        if (!permission)
+            return StringUtil.copyPartialMatches(args[1], Collections.singletonList("<You don't have the permission>"), new LinkedList<String>());
+
+        switch (args[0].toLowerCase()) {
+            case "create":
+                return StringUtil.copyPartialMatches(args[2], Collections.singleton("<Insert the number of usages here>"), new LinkedList<String>());
+        }
+        return null;
+    }
+
+    private LinkedList<String> fourthArg(boolean permission) {
+        if (!permission)
+            return StringUtil.copyPartialMatches(args[1], Collections.singletonList("<You don't have the permission>"), new LinkedList<String>());
+
+        switch (args[0].toLowerCase()) {
+            case "create":
+                LinkedList<String> players = new LinkedList<>();
+                for (Player player : Bukkit.getOnlinePlayers())
+                    players.add(player.getName());
+                return StringUtil.copyPartialMatches(args[3], players, new LinkedList<String>());
+
+        }
+        return null;
     }
 }
