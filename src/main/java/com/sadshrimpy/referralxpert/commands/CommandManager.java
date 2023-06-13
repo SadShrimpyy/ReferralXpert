@@ -37,11 +37,9 @@ public class CommandManager implements CommandExecutor {
         SadPlaceholders placeholders = sadLibrary.placeholders();
 
         if (!subCommandsMap.containsKey(subCommandName)) {
-            // The command is not present
             sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-found")
                     .replace(placeholders.getPlayerName(), sender.getName())
                     .replace(placeholders.getCommand(), commandPlaceholderBuilder(label, args))));
-            //subCommandsMap.get("credits").apply(args).perform(sender);
             return true;
         }
 
