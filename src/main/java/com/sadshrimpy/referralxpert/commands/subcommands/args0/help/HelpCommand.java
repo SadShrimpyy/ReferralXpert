@@ -80,6 +80,12 @@ public class HelpCommand implements CommandSyntax {
         if (cmdArgs.length == expectedArgs() - possibleErrors()) {
             cmdArgs = Arrays.copyOf(cmdArgs, cmdArgs.length + 1);
             cmdArgs[1] = "1";
+        } else {
+            try {
+                Byte.parseByte(cmdArgs[1]);
+            } catch (NumberFormatException e) {
+                cmdArgs[1] = "127";
+            }
         }
 
         size = 3;
