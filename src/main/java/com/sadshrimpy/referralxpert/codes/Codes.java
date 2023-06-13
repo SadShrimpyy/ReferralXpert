@@ -14,15 +14,16 @@ public class Codes {
         this.code = code;
     }
 
+
+    /** Getters */
+    public UUID getOwnerId() {
+        return ownerId;
+    }
     public double getUsages() {
         return usages;
     }
-    /** Getters */
     public String getCode() {
         return code;
-    }
-    public UUID getOwnerId() {
-        return ownerId;
     }
 
     /** Setters */

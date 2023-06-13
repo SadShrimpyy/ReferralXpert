@@ -71,7 +71,7 @@ player: # Player's related messages:
     # For example if you need to send a gift to Hologiman, if hologiman aren't online, hologiman will be the involved player
     #   -> %player-name% : name of the player who executed the command
     #   -> %player-involevd% : name of the involved player
-  not-found: "&7Hey &e%player-name%&7, sorry but the player &f%player-involved% &cisn't &7found&7."
+  not-found: "&7Hey &e%player-name%&7, sorry but the player &c%player-involved% &cisn't &7found&7."
 
 command: # Command's related messages:
     # When a player try to execute a command that isn't exist.
