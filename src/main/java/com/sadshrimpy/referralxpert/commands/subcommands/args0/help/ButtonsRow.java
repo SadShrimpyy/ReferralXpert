@@ -25,7 +25,7 @@ public class ButtonsRow extends HelpCommand {
     private String getButton(String path) {
         StringBuilder sB = new StringBuilder();
         sB.setLength(0);
-        sB.append(super.msgC.getString(path));;
+        sB.append(super.msg.getString(path));;
 
         byte curIndex = (byte) sB.indexOf(super.place.getHelpCurPage());
         if (curIndex != -1)
@@ -61,21 +61,21 @@ public class ButtonsRow extends HelpCommand {
         // TODO: 5/26/2023 check the page and not go over the max :)
         ClickEvent[] aCE = new ClickEvent[2];
         if (page > 1) {
-            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-previous.hover"))));
+            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msg.getString("help.page.button-previous.hover"))));
             aCE[0] = new ClickEvent(ClickEvent.Action.RUN_COMMAND, sB1.append("/rxp help ").append(page - 1).toString());
         } else
-            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-previous.first-page"))));
+            aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msg.getString("help.page.button-previous.first-page"))));
 
         sB1.setLength(0);
 
         if (page < pageMax) {
-            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-next.hover"))));
+            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msg.getString("help.page.button-next.hover"))));
             aCE[1] = new ClickEvent(ClickEvent.Action.RUN_COMMAND, sB1.append("/rxp help ").append(page + 1).toString());
         } else
-            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msgC.getString("help.page.button-next.last-page"))));
+            aHE[1] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msg.getString("help.page.button-next.last-page"))));
 
         sB1.setLength(0);
-        sB1.append(msgC.getString(path));
+        sB1.append(msg.getString(path));
 
         String[] aS = new String[]{"", ""};
         byte[] b = getBoundaries(sB1);
