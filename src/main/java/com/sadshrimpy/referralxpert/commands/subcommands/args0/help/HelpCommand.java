@@ -16,7 +16,7 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class HelpCommand implements CommandSyntax {
 
-    private List<String> cmdsInHelp;
+    private List<String> helpList;
     private String[] cmdArgs;
     private byte finish;
     private byte start;
@@ -24,7 +24,7 @@ public class HelpCommand implements CommandSyntax {
     private byte pageMax;
     private byte page;
 
-    protected FileConfiguration msgC = sadLibrary.configurations().getMessages();
+    protected FileConfiguration msg = sadLibrary.configurations().getMessages();
     protected SadPlaceholders place = sadLibrary.placeholders();
 
 
@@ -63,8 +63,9 @@ public class HelpCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        cmdsInHelp = msgC.getStringList("help.list");
-        SadChat sMsg = sadLibrary.chat();
+        helpList = msg.getStringList("help.list");
+        int sz = helpList.size();
+        SadChat chat = sadLibrary.chat();
 
 /*
   // todo select the amount displayed
@@ -82,19 +83,19 @@ public class HelpCommand implements CommandSyntax {
         }
 
         size = 3;
-        pageMax = (byte) ((cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1);
+        pageMax = (byte) ((sz % size) == 0 ? sz / size : sz / size + 1);
         page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);
         if (page > pageMax) page = pageMax;
 
-        finish = (byte) ((page * size - 1) > cmdsInHelp.size() ? cmdsInHelp.size() - 1 : (page * size - 1));
+        finish = (byte) ((page * size - 1) > sz ? sz - 1 : (page * size - 1));
         start = (byte) (page < 1 ? 1 : (page - 1) * size);
 
-        sendBanner(sender, this.msgC, sMsg);
-        if (this.msgC.getBoolean("help.space-between-rows"))
-            printWithSpace(sender, sMsg);
+        sendBanner(sender, this.msg, chat);
+        if (this.msg.getBoolean("help.space-between-rows"))
+            printWithSpace(sender, chat);
         else
-            printWithoutSpace(sender, sMsg);
-        sendBanner(sender, this.msgC, sMsg);
+            printWithoutSpace(sender, chat);
+        sendBanner(sender, this.msg, chat);
 
     }
 
@@ -111,7 +112,7 @@ public class HelpCommand implements CommandSyntax {
         RowPosition row = getRow(sender, msgC);
         if (row == null) return;
 
-        boolean hPage = this.msgC.getBoolean("help.page.enabled");
+        boolean hPage = this.msg.getBoolean("help.page.enabled");
         TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
         Player player = Bukkit.getPlayer(sender.getName());
 
@@ -121,8 +122,8 @@ public class HelpCommand implements CommandSyntax {
                 sender.sendMessage("");
             }
 
-        while (start <= finish && cmdsInHelp.size() > start) {
-            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
+        while (start <= finish && helpList.size() > start) {
+            sender.sendMessage(msgC.viaChat(false, helpList.get(start)));
             if (start < finish)
                 sender.sendMessage("");
             start++;
@@ -144,7 +145,7 @@ public class HelpCommand implements CommandSyntax {
         row = getRow(sender, msgC);
         if (row == null) return;
 
-        boolean hPage = this.msgC.getBoolean("help.page.enabled");
+        boolean hPage = this.msg.getBoolean("help.page.enabled");
         TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
         Player player = Bukkit.getPlayer(sender.getName());
 
@@ -154,8 +155,8 @@ public class HelpCommand implements CommandSyntax {
                 sender.sendMessage("");
             }
 
-        while (start <= finish && cmdsInHelp.size() > start) {
-            sender.sendMessage(msgC.viaChat(false, cmdsInHelp.get(start)));
+        while (start <= finish && helpList.size() > start) {
+            sender.sendMessage(msgC.viaChat(false, helpList.get(start)));
             start++;
         }
 
@@ -172,9 +173,9 @@ public class HelpCommand implements CommandSyntax {
     private RowPosition getRow(CommandSender sender, SadChat msgC) {
         RowPosition row;
         try {
-            row = RowPosition.valueOf(this.msgC.getString("help.page.display"));
+            row = RowPosition.valueOf(this.msg.getString("help.page.display"));
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(msgC.viaChat(true, this.msgC.getString("plugin-error.row-not-valid")));
+            sender.sendMessage(msgC.viaChat(true, this.msg.getString("plugin-error.row-not-valid")));
             return null;
         }
         return row;
