@@ -6,8 +6,7 @@ public class SadPlaceholders {
 
     /** Player's related */
         private final String playerName = "%player-name%";
-        private final String playerInvolved = "%player-involved" +
-                "%";
+        private final String playerInvolved = "%player-involved%";
         private final String playerExecutor = "%player-executor%";
         private final String actionName = "%action-name%";
     /** Plugin's related */
