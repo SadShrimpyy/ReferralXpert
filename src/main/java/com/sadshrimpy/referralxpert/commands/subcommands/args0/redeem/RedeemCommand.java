@@ -54,5 +54,8 @@ public class RedeemCommand implements CommandSyntax {
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
             return;
         }
+
+        // TODO: 14/06/2023 ip check
+        // TODO: 14/06/2023 redeem per player
     }
 }

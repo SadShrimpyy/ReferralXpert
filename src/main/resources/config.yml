@@ -35,6 +35,16 @@ bstats: true # todo
 database: #todo SQLite & MySQL
     # By disabling this entry, you will not be able to encapsulate any information
   enabled: true
+    # Here you can customize the amount of minutes that will elapse between database synchronizations, on cached game data.
+    # In particular, to avoid continuous database operations, the plugin keeps the most frequent, and recently requested, data in the cache.
+  sync:
+      # Every sync-time minutes the database will be updated via the data kept in the cache, up to that point.
+      # It is recommended to enter a number of minutes that varies between 10 and 20 minutes.
+    time: 15
+      # Perform synchronization in mode: Synchronous or Asynchronous?
+      #   -> A-SYNC : the task will be executed concurrently along other tasks;
+      #   -> SYNC : the task will be executed on the server's main thread (complex tasks can involve lag and performance issues).
+    mode: "A-SYNC"
     # Select the type of database you want to use from:
     #   -> MySQL: client-server, database that manages the entire database, via an external host;
     #   -> SQLite: serverless, file-based database engine that stores the entire database in a single file (~/plugins/ReferralXpert/refXsqlite.db).
@@ -73,20 +83,25 @@ database: #todo SQLite & MySQL
 # Here you can change all the settings related to the mechanics offered by the plugin.
 
         # ---------------------------------- #
-      # # # THE CODES ARE CASE-SENSITIVE ! # # #
+# # # # #   THE CODES ARE CASE-SENSITIVE !   # # # # #
         # ---------------------------------- #
 
 referral:
     # If true the players with the same ip, can not refer each other.
   ip-check: true
     # Set the maximum number of times a player can redeem ANY code, it is recommended to keep this value at -1 (infinite times).
+    # For example if you keep 4, a player can redeem a total of 4 codes. While setting this to -1, a player can redeem as many codes as he wants.
   redeem-per-player: -1
+    # Use the playtime to set a MINIMUM PLAYTIME (in minutes) that a player must achieve before being able to redeem any code.
+    # Set this to -1 for having no time limit (equal to 0s).
+  playtime: 15
 
 
 
 # FORSE - idee:
 # -----> TRACKING DELLE STATISTICHE DI REFERRAL
 #   Tieni traccia delle statistiche di referral per ciascun utente,
+#     - codici utilizzati
 #     - come il numero di giocatori invitati,
 #     - il tempo medio che i giocatori invitati trascorrono sul server,
 #     - il numero di giocatori che diventano attivi dopo essere stati invitati,
