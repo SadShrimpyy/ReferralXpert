@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
@@ -52,6 +53,11 @@ public class CreateCommand implements CommandSyntax {
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.cannot-create")
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
             return;
+        }
+
+        if (cmdArgs.length == expectedArgs() - possibleErrors()) {
+            cmdArgs = Arrays.copyOf(cmdArgs, cmdArgs.length + 1);
+            cmdArgs[3] = sender.getName();
         }
 
         if (Bukkit.getPlayer(cmdArgs[3]) == null) {
