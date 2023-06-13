@@ -7,11 +7,18 @@ public class Codes {
     private double usages;
     private String code;
     private UUID ownerId;
+    private int interval;
+    private boolean once;
 
-    public Codes(String code, double usages, UUID ownerId) {
+    public Codes(String code, double usages, UUID ownerId, boolean once, String interval) {
         this.ownerId = ownerId;
         this.usages = usages;
+        this.once = once;
         this.code = code;
+        if (once)
+            this.interval = -1;
+        else
+            this.interval = Integer.parseInt(interval);
     }
 
 
@@ -24,6 +31,12 @@ public class Codes {
     }
     public String getCode() {
         return code;
+    }
+    public int getInterval() {
+        return interval;
+    }
+    public boolean getOnce() {
+        return once;
     }
 
     /** Setters */

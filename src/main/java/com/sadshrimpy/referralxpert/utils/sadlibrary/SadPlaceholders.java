@@ -27,6 +27,7 @@ public class SadPlaceholders {
             // Code
             private final String code = "%code%";
             private final String codeMaxUsages = "%code-max-usages%";
+            private final String interval = "%interval%";
 
 
     /** Player's related */
@@ -79,5 +80,8 @@ public class SadPlaceholders {
             }
             public String getCodeMaxUsages() {
                 return codeMaxUsages;
+            }
+            public String getInterval() {
+                return interval;
             }
 }

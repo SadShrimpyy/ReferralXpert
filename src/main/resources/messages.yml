@@ -89,10 +89,25 @@ referral: # Referral's related messages:
       # -> %player-name% : name of the player who the code's headed
       # -> %code-max-usages% : maximum uses of the code
       # -> %code% : name of the code that was created
-    created: "&a&lGood&7! The code: &e&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s)."
+    created: "&a&lGood! &7The code: &e&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s), with an interval of &3%interval% &7hours."
       # When you try to create a code, but it already exists.
       # -> %code% : name of the code you tried to create
     cannot-create: "&c&lSorry&7! But the &e&o%code% &ccan't &7be created! It probably &balready exists &7:("
+  redeem: # Use of a code
+      # This message is displayed to them (CODE-HEADER), when a player use their code.
+      # The CODE-HEADER is the player who the code's referred.
+      # -> %player-involved% : the player that use "your" code
+      # -> %code% : the (your) code that the player used
+    code-header: "&a&lSounds good! &6%player-involved% &7just used your code: &e%code%&7!"
+      # This message is displayed when you redeem a code.
+      # -> %streak% : your streak using the same code,
+      # -> %score% : your score in the scoreboard,
+      # -> %code% : the code you just redeem.
+    player-referral: "&a&lGreat! &7You just used the code &e%code%&7, referring &6%player-involved% &7and have received rewards! Your current streak is: &c%streak%&7, and your're at position &b%score% &7into the global scoreboard!"
+      # When a player try to redeem a code that does not exist.
+      # -> %player-name% : name of the player who executed the command;
+      # -> %code% : the code that the player tried to redeem.
+    not-found: "&7Sorry &e%player-name%&7! But the requested code: &e%code%&7, &cdoes not exists &7yet!"
 
 
 plugin-error: # Plugin's related errors
@@ -159,7 +174,7 @@ help:
   list:
     - "&c-> &7&oHey! You can see the help menu here. Open the chat and hover your mouse cursor, over a command to see more information. Click the &o\"change page\" &7buttons to scroll through the help list."
     - "&6->&r &6&o/rxp help <page-number> &8- &7view the generic help menu (this)."
-    - "&e->&r &6&o/rxp create <code> <maximum-usages> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7. &e&oNote: if you set <maximum> to any value below 0, will be any tmes reedemable, and if the <player> isn't specified, the holder will be you." #todo this command
+    - "&e->&r &6&o/rxp create <code> <maximum-usages> <interval> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7, redeemable every <interval> hours. &e&oNote: if you set <maximum> to any value below 0, will be any tmes reedemable. If the <player> isn't specified, the holder will be you. If the <interval> is any value below 0, the code will be redeemable only once for each player." #todo this command
     - "&c->&r &6&o/rxp check &8- &7check the amount of referrals you have." #todo this command
     - "&6->&r &6&o/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
     - "&e->&r &6&o/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
@@ -168,7 +183,7 @@ help:
     - "&e->&r &6&o/rxp scoreboard-gui &8- &7see the top player(s) with the highest referral score in the GUI." #todo this command
     - "&c->&r &6&o/rxp set <player> <value> &8- &7set the referral score of a player to a specific value." #todo this command
     - "&6->&r &6&o/rxp maximum <value> &8- &7sets the maximum amount of code(s) that can be redeemed by each player." #todo this command
-    - "&e->&r &6&o/rxp redeem <value> &8- &7redeem a referral code." #todo this command
+    - "&e->&r &6&o/rxp redeem <value> &8- &7redeem a referral code."
     - "&c->&r &6&o/rxp reload &8- &7reload the plugin."
     - "&6->&r &6&o/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
     - "&e->&r &6&o/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command

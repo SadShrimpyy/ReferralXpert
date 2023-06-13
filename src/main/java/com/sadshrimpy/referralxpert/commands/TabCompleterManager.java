@@ -41,6 +41,9 @@ public class TabCompleterManager implements TabCompleter {
 
             case 4:
                 return fourthArg(permission);
+
+            case 5:
+                return fivethArg(permission);
         }
 
         return new LinkedList<>();
@@ -69,7 +72,7 @@ public class TabCompleterManager implements TabCompleter {
                 return StringUtil.copyPartialMatches(args[1], secArgs, new LinkedList<String>());
 
             case "create":
-                return StringUtil.copyPartialMatches(args[1], Collections.singleton("<Insert your code here>"), new LinkedList<String>());
+                return StringUtil.copyPartialMatches(args[1], Collections.singleton("<Enter your code here>"), new LinkedList<String>());
         }
         return null;
     }
@@ -81,7 +84,7 @@ public class TabCompleterManager implements TabCompleter {
 
         switch (args[0].toLowerCase()) {
             case "create":
-                return StringUtil.copyPartialMatches(args[2], Collections.singleton("<Insert the number of usages here>"), new LinkedList<String>());
+                return StringUtil.copyPartialMatches(args[2], Collections.singleton("<Enter the number of usages here>"), new LinkedList<String>());
         }
         return null;
     }
@@ -92,10 +95,22 @@ public class TabCompleterManager implements TabCompleter {
 
         switch (args[0].toLowerCase()) {
             case "create":
+                return StringUtil.copyPartialMatches(args[3], Collections.singletonList("<Enter the hourly time interval here>"), new LinkedList<String>());
+
+        }
+        return null;
+    }
+
+    private LinkedList<String> fivethArg(boolean permission) {
+        if (!permission)
+            return StringUtil.copyPartialMatches(args[1], Collections.singletonList("<You don't have the permission>"), new LinkedList<String>());
+
+        switch (args[0].toLowerCase()) {
+            case "create":
                 LinkedList<String> players = new LinkedList<>();
                 for (Player player : Bukkit.getOnlinePlayers())
                     players.add(player.getName());
-                return StringUtil.copyPartialMatches(args[3], players, new LinkedList<String>());
+                return StringUtil.copyPartialMatches(args[4], players, new LinkedList<String>());
 
         }
         return null;

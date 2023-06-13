@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
@@ -39,7 +38,7 @@ public class CreateCommand implements CommandSyntax {
 
     @Override
     public int expectedArgs() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -57,27 +56,38 @@ public class CreateCommand implements CommandSyntax {
 
         if (cmdArgs.length == expectedArgs() - possibleErrors()) {
             cmdArgs = Arrays.copyOf(cmdArgs, cmdArgs.length + 1);
-            cmdArgs[3] = sender.getName();
+            cmdArgs[4] = sender.getName();
         }
 
-        if (Bukkit.getPlayer(cmdArgs[3]) == null) {
+        if (Bukkit.getPlayer(cmdArgs[4]) == null) {
             sender.sendMessage(chat.viaChat(true, msg.getString("player.not-found")
                     .replace(sadLibrary.placeholders().getPlayerName(), sender.getName())
-                    .replace(sadLibrary.placeholders().getPlayerInvolved(), cmdArgs[3])));
+                    .replace(sadLibrary.placeholders().getPlayerInvolved(), cmdArgs[4])));
             return;
         }
 
-        Player involved = Bukkit.getPlayer(cmdArgs[3]);
+        Player involved = Bukkit.getPlayer(cmdArgs[4]);
         assert involved != null;
 
         SadPlaceholders place = sadLibrary.placeholders();
         double usages = Double.parseDouble(cmdArgs[2]) <= 0 ? Double.POSITIVE_INFINITY : Double.parseDouble(cmdArgs[2]);
+        double interval = Double.parseDouble(cmdArgs[3]) <= 0 ? Double.POSITIVE_INFINITY : Double.parseDouble(cmdArgs[3]);
+
+        boolean once = false;
+        StringBuilder res = new StringBuilder();
+        if (interval < 2147483647)
+            res.append((int) interval);
+        else {
+            once = true;
+            res.append("Infinity");
+        }
 
         sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.created")
                 .replace(place.getCode(), cmdArgs[1])
                 .replace(place.getCodeMaxUsages(), (int) usages >= 2147483647 ? "Infinity" : Integer.toString((int) usages))
+                .replace(place.getInterval(), res.toString())
                 .replace(place.getPlayerName(), involved.getName())));
 
-        sadLibrary.codes().getCodes().put(cmdArgs[1], new Codes(cmdArgs[1], usages, involved.getUniqueId()));
+        sadLibrary.codes().getCodes().put(cmdArgs[1], new Codes(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
     }
 }
