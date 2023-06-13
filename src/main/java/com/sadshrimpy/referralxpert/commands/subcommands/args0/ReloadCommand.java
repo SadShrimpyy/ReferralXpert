@@ -25,6 +25,11 @@ public class ReloadCommand implements CommandSyntax {
     }
 
     @Override
+    public int possibleErrors() {
+        return 0;
+    }
+
+    @Override
     public void perform(CommandSender sender) {
         sadLibrary.buildFiles();
         if (sadLibrary.configurations().reloadFiles())

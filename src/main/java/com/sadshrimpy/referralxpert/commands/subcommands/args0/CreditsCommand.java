@@ -24,6 +24,11 @@ public class CreditsCommand implements CommandSyntax {
     }
 
     @Override
+    public int possibleErrors() {
+        return 0;
+    }
+
+    @Override
     public void perform(CommandSender sender) {
         StringBuilder msg = new StringBuilder().append("\n&7&m&l              &7&l< &c&lReferral&6&lX&e&lpert &7&l>&m              ").append("&r")
                 .append("\n&8 -> &eDeveloped &7with &c&l<3 &7by: &9&oSadShrimpy#9190").append("&r")

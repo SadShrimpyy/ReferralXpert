@@ -57,6 +57,11 @@ public class HelpCommand implements CommandSyntax {
     }
 
     @Override
+    public int possibleErrors() {
+        return 1;
+    }
+
+    @Override
     public void perform(CommandSender sender) {
         cmdsInHelp = msgC.getStringList("help.list");
         SadChat sMsg = sadLibrary.chat();

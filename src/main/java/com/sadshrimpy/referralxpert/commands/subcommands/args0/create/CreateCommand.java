@@ -42,8 +42,12 @@ public class CreateCommand implements CommandSyntax {
     }
 
     @Override
+    public int possibleErrors() {
+        return 1;
+    }
+
+    @Override
     public void perform(CommandSender sender) {
-//        /rxp create <code> <maximum-usages> <player>
         if (sadLibrary.codes().getCodes().containsKey(cmdArgs[1])) {
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.cannot-create")
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));

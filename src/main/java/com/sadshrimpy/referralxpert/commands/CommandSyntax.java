@@ -7,5 +7,6 @@ public interface CommandSyntax {
     abstract String getPermission(String[] args);
     abstract boolean hasSubcommands();
     abstract int expectedArgs();
+    abstract int possibleErrors();
     abstract void perform(CommandSender sender);
 }
