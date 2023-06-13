@@ -75,6 +75,12 @@ public class HelpCommand implements CommandSyntax {
         size = msg.getInt("help.size");
         if (size < 3) size = 3; // Positive and minimum values
 */
+
+        if (cmdArgs.length == expectedArgs() - possibleErrors()) {
+            cmdArgs = Arrays.copyOf(cmdArgs, cmdArgs.length + 1);
+            cmdArgs[1] = "1";
+        }
+
         size = 3;
         pageMax = (byte) ((cmdsInHelp.size() % size) == 0 ? cmdsInHelp.size() / size : cmdsInHelp.size() / size + 1);
         page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);

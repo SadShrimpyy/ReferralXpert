@@ -65,7 +65,7 @@ public class CommandManager implements CommandExecutor {
         }
 
         /** Check args length is valid */
-        if (args.length != subCommand.expectedArgs()) {
+        if ((args.length != subCommand.expectedArgs()) && (args.length != subCommand.expectedArgs() - subCommand.possibleErrors())) {
             sender.sendMessage(sadLibrary.chat().viaChat(true, sadLibrary.configurations().getMessages().getString("command.not-complete")
                     .replace(placeholders.getPlayerName(), sender.getName())
                     .replace(placeholders.getCommand(), commandPlaceholderBuilder(label, args))));
