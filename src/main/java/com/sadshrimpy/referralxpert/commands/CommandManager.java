@@ -3,6 +3,7 @@ package com.sadshrimpy.referralxpert.commands;
 import com.sadshrimpy.referralxpert.commands.subcommands.args0.*;
 import com.sadshrimpy.referralxpert.commands.subcommands.args0.create.CreateCommand;
 import com.sadshrimpy.referralxpert.commands.subcommands.args0.help.HelpCommand;
+import com.sadshrimpy.referralxpert.commands.subcommands.args0.redeem.RedeemCommand;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,6 +24,7 @@ public class CommandManager implements CommandExecutor {
         subCommandsMap.put("help", HelpCommand::new);
         subCommandsMap.put("create", CreateCommand::new);
         subCommandsMap.put("reload", ReloadCommand::new);
+        subCommandsMap.put("redeem", RedeemCommand::new);
     }
 
     @Override

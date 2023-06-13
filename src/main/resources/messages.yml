@@ -89,25 +89,25 @@ referral: # Referral's related messages:
       # -> %player-name% : name of the player who the code's headed
       # -> %code-max-usages% : maximum uses of the code
       # -> %code% : name of the code that was created
-    created: "&a&lGood! &7The code: &e&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s), with an interval of &3%interval% &7hours."
+    created: "&a&lGood! &7The code: &d&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s), with an interval of &3%interval% &7hours."
       # When you try to create a code, but it already exists.
       # -> %code% : name of the code you tried to create
-    cannot-create: "&c&lSorry&7! But the &e&o%code% &ccan't &7be created! It probably &balready exists &7:("
+    cannot-create: "&c&lSorry&7! But the &d&o%code% &ccan't &7be created! It probably &balready exists &7:("
   redeem: # Use of a code
       # This message is displayed to them (CODE-HEADER), when a player use their code.
       # The CODE-HEADER is the player who the code's referred.
       # -> %player-involved% : the player that use "your" code
       # -> %code% : the (your) code that the player used
-    code-header: "&a&lSounds good! &6%player-involved% &7just used your code: &e%code%&7!"
+    code-header: "&a&lSounds good! &6%player-involved% &7just used your code: &d&o%code%&7!"
       # This message is displayed when you redeem a code.
       # -> %streak% : your streak using the same code,
       # -> %score% : your score in the scoreboard,
       # -> %code% : the code you just redeem.
-    player-referral: "&a&lGreat! &7You just used the code &e%code%&7, referring &6%player-involved% &7and have received rewards! Your current streak is: &c%streak%&7, and your're at position &b%score% &7into the global scoreboard!"
+    player-referral: "&a&lGreat! &7You just used the code &d&o%code%&7, referring &6%player-involved% &7and have received rewards! Your current streak is: &c%streak%&7, and your're at position &b%score% &7into the global scoreboard!"
       # When a player try to redeem a code that does not exist.
       # -> %player-name% : name of the player who executed the command;
       # -> %code% : the code that the player tried to redeem.
-    not-found: "&7Sorry &e%player-name%&7! But the requested code: &e%code%&7, &cdoes not exists &7yet!"
+    not-found: "&7Sorry &e%player-name%&7! But the requested code: &d&o%code%&7, &cdoes not exists &7yet!"
 
 
 plugin-error: # Plugin's related errors
