@@ -1,6 +1,6 @@
 package com.sadshrimpy.referralxpert.utils.sadlibrary;
 
-import com.sadshrimpy.referralxpert.databases.DbProceduresT;
+import com.sadshrimpy.referralxpert.databases.procedures.DBProceduresT;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,10 +8,10 @@ import java.sql.SQLException;
 public class SadDatabase {
 
     private Connection connection;
-    private final DbProceduresT dbProceduresT;
+    private final DBProceduresT dbProceduresT;
 
     SadDatabase() {
-        dbProceduresT = new DbProceduresT();
+        dbProceduresT = new DBProceduresT();
     }
 
     public void connect() {

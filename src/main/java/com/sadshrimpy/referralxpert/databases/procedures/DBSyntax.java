@@ -1,8 +1,8 @@
-package com.sadshrimpy.referralxpert.databases;
+package com.sadshrimpy.referralxpert.databases.procedures;
 
 import java.sql.ResultSet;
 
-public interface DatabaseSyntax {
+public interface DBSyntax {
     abstract boolean connect(String name);
     abstract boolean close();
     abstract boolean tableExists(String table);

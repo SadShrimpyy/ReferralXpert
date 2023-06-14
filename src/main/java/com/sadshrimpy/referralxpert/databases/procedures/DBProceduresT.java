@@ -1,24 +1,21 @@
-package com.sadshrimpy.referralxpert.databases;
+package com.sadshrimpy.referralxpert.databases.procedures;
 
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
-public class DbProceduresT {
+public class DBProceduresT {
 
     private FileConfiguration messages;
     private FileConfiguration config;
     private Connection connection;
     private SadChat chat;
 
-    public DbProceduresT() {
+    public DBProceduresT() {
         this.chat = sadLibrary.chat();
         this.messages = sadLibrary.configurations().getMessages();
         this.config = sadLibrary.configurations().getConfig();
@@ -31,9 +28,9 @@ public class DbProceduresT {
         }
 
         String dbType = config.getString("database.type");
-        if (DatabaseType.SQLite.name().equals(dbType))
+        if (DBType.SQLite.name().equals(dbType))
             return getSqliteConnection();
-        else if (DatabaseType.MySQL.name().equals(dbType))
+        else if (DBType.MySQL.name().equals(dbType))
             return getMysqlConnection();
         else {
             sadLibrary.chat().viaConsole(true, messages.getString("plugin-error.database-not-recognised"));
