@@ -48,13 +48,14 @@ database: #todo SQLite & MySQL
     # Select the type of database you want to use from:
     #   -> MySQL: client-server, database that manages the entire database, via an external host;
     #   -> SQLite: serverless, file-based database engine that stores the entire database in a single file (~/plugins/ReferralXpert/refXsqlite.db).
-  type: "SQLite"
+  type: "MySQL"
   MySQL:
     hostname: "localhost"
-    port: 3308
+    port: 3306
     database-name: "referralxpert"
     username: "root"
     password: ""
+    use-ssl: false
   SQLite:
     encrypt-data:
         # Select whether you want to encrypt all data.

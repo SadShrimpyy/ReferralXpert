@@ -16,14 +16,14 @@ public class SadDatabase {
 
     public void connect() {
         connection = dbProceduresT.analyzeType();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            if (connection.isClosed()) connection = connection.getMetaData().getConnection();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
-    public Connection getConnection() {
+    public Connection refresh() {
         try {
             if (connection.isClosed()) connection = dbProceduresT.analyzeType();
         } catch (SQLException e) {

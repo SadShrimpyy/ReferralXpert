@@ -29,10 +29,8 @@ public class SadLibrary {
         this.generics.displayHeader();
         this.buildFiles();
 
-        // code - (1:n) assoc. (1:n) - player
-        // TODO: 6/8/2023 DB
-//        this.connection = new SadDatabase();
-//        this.connection.connect();
+        this.connection = new SadDatabase();
+        this.connection.connect();
 
 //        this.buildDefaultJson();
 
