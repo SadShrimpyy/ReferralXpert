@@ -31,4 +31,9 @@ public class SadDatabase {
 //            throw new RuntimeException(e);
         }
     }
+
+    /** Getters */
+    public Connection getConnection() {
+        return this.connection;
+    }
 }
