@@ -59,6 +59,7 @@ public class ButtonsRow extends HelpCommand {
         HoverEvent[] aHE = new HoverEvent[2];
 
         // TODO: 5/26/2023 check the page and not go over the max :)
+        // TODO: 5/26/2023 check the page and not go over the max :)
         ClickEvent[] aCE = new ClickEvent[2];
         if (page > 1) {
             aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msg.getString("help.page.button-previous.hover"))));

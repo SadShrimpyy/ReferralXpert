@@ -32,7 +32,7 @@ bstats: true # todo
 # For example, the total time it took to use a referral code, the number of players invited,
 # the number of players who used your code, and, when...
 
-database: #todo SQLite & MySQL
+database: #todo SQLite
     # By disabling this entry, you will not be able to encapsulate any information
   enabled: true
     # Here you can customize the amount of minutes that will elapse between database synchronizations, on cached game data.

@@ -178,11 +178,11 @@ help:
     # You decide which ones to print in the help messages, in what order, under what formatting, etc...
     # It's recommended NOT to omit any commands!
   list:
-    - "&c-> &7&oHey! You can see the help menu here. Open the chat and hover your mouse cursor, over a command to see more information. Click the &o\"change page\" &7buttons to scroll through the help list."
+    - "&c-> &7&oHey! You can see the help menu here. Open the chat and &b&ohover &7&oyour mouse cursor, over a command to see more information. &b&oClick &7&othe &o\"change page\" &7buttons to scroll through the help list."
     - "&6->&r &6&o/rxp help <page-number> &8- &7view the generic help menu (this)."
-    - "&e->&r &6&o/rxp create <code> <maximum-usages> <period> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7, redeemable every <period> hours. &e&oNote: if you set <maximum> to any value below 0, will be any tmes reedemable. If the <player> isn't specified, the holder will be you. If the <period> is any value below 0, the code will be redeemable only once for each player." #todo this command
+    - "&e->&r &6&o/rxp create <code> <max-usages> <period> <player> &8- &7create a new referral code, usable for &o<max-usages> &7times, headed out to &o<player>&7, redeemable every <period> hours."
     - "&c->&r &6&o/rxp check &8- &7check the amount of referrals you have." #todo this command
-    - "&6->&r &6&o/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
+    - "&6->&r &6&o/rxp check-specific <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
     - "&e->&r &6&o/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command
     - "&c->&r &6&o/rxp score &8- &7see your personal referral score." #todo this command
     - "&6->&r &6&o/rxp scoreboard <value> &8- &7see the top <value> player(s) with the highest referral score." #todo this command
@@ -193,6 +193,24 @@ help:
     - "&c->&r &6&o/rxp reload &8- &7reload the plugin."
     - "&6->&r &6&o/rxp reset <player> &8- &7resets the referrer of a player." #todo this command
     - "&e->&r &6&o/rxp reward <code> <command> &8- &7add a command that must be executed when a player redeem a code. &oMore info in the configuration file (&b&ocodes.yml&7&o)." #todo this command
-    - "&e->&r &6&o/rxp time <hh:mm.ss> &8- &7sets the minimum time after which a player can redeem the code(s)." #todo this command
     - "&e->&r &6&o/rxp secret regen-sql-key &8- &7regenerate the &bsecret key&7." #todo this command
     - "&c-> &ePlugin &lalias &8- &7referralxpert, rxp, ref, referral."
+  hovers:
+      # Here you can find all the extra information that the player will se when he hovers on the specific command.
+    commands:
+      help: "&7The &b<page-number> &7represents the page's number of the help menu."
+      create: "&7If you set &c<max-usages> &7to any value below 0, will be any tmes reedemable. If the &c<player> &7isn't specified, the holder will be you. If the &nb<period> &7is any value below 0, the code will be redeemable only once for each player."
+      check: "&7"
+      check-specific: "&7"
+      goals: "&7"
+      score: "&7"
+      scoreboard: "&7"
+      scoreboard-gui: "&7"
+      set: "&7"
+      maximum: "&7"
+      redeem: "&7The &b<redeem> &7is the field where your code, that you want to redeem, must be placed for redeeming."
+      reload: "&7Reload the plugin."
+      reset: "&7"
+      reward: "&7"
+      time: "&7"
+      secret: "&7The &csecret sql key &7is a key used by the plugin to encrypt and decrypt your sql data. &c&lThe key is confidential, and should not be shared with anyone!"

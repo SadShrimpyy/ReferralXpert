@@ -65,7 +65,7 @@ public class TabCompleterManager implements TabCompleter {
             case "help":
                 LinkedList<String> secArgs = new LinkedList<>();
                 int size = 3;
-                int sz = msg.getStringList("help.list").size();
+                int sz = msg.getStringList("<period>").size();
                 int pageMax = (byte) ((sz % size) == 0 ? sz / size : sz / size + 1);
                 for (int i = 1; i <= pageMax; i++)
                     secArgs.add(String.valueOf(i));
