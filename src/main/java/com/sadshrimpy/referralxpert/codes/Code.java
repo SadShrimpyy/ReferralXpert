@@ -2,7 +2,7 @@ package com.sadshrimpy.referralxpert.codes;
 
 import java.util.UUID;
 
-public class Codes {
+public class Code {
 
     private double usages;
     private String code;
@@ -10,7 +10,7 @@ public class Codes {
     private int interval;
     private boolean once;
 
-    public Codes(String code, double usages, UUID ownerId, boolean once, String interval) {
+    public Code(String code, double usages, UUID ownerId, boolean once, String interval) {
         this.ownerId = ownerId;
         this.usages = usages;
         this.once = once;

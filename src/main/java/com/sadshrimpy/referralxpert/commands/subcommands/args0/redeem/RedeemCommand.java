@@ -1,15 +1,9 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.redeem;
 
-import com.sadshrimpy.referralxpert.codes.Codes;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
-import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-
-import java.util.Arrays;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 

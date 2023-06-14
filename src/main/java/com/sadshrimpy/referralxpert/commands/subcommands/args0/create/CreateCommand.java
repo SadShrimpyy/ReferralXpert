@@ -1,6 +1,6 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.create;
 
-import com.sadshrimpy.referralxpert.codes.Codes;
+import com.sadshrimpy.referralxpert.codes.Code;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
@@ -88,6 +88,6 @@ public class CreateCommand implements CommandSyntax {
                 .replace(place.getInterval(), res.toString())
                 .replace(place.getPlayerName(), involved.getName())));
 
-        sadLibrary.codes().getCodes().put(cmdArgs[1], new Codes(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
+        sadLibrary.codes().getCodes().put(cmdArgs[1], new Code(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
     }
 }
