@@ -3,8 +3,6 @@ package com.sadshrimpy.referralxpert.databases;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,8 +13,9 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class DbProceduresT {
 
-    private FileConfiguration config;
     private FileConfiguration messages;
+    private FileConfiguration config;
+    private Connection connection;
     private SadChat chat;
 
     public DbProceduresT() {
@@ -25,7 +24,7 @@ public class DbProceduresT {
         this.config = sadLibrary.configurations().getConfig();
     }
 
-    public Connection analyzeType() {
+    public Connection getFilteredConnection() {
         if (!config.getBoolean("database.enabled")) {
             chat.viaConsole(true, messages.getString("plugin-error.no-database-detected"));
             return null;
@@ -44,46 +43,36 @@ public class DbProceduresT {
 
     /** MySQL stuff */
     private Connection getMysqlConnection() {
-        Connection conn = null;
-        String urlN = new StringBuilder()
-                .append("jdbc:mysql://")
-                .append(config.getString("database.MySQL.hostname"))
-                .append(":")
-                .append(config.getInt("database.MySQL.port"))
-                .append("/")
-                .append("?useSSL=")
-                .append(config.getString("database.MySQL.use-ssl"))
-                .toString();
+        String DB_NAME = config.getString("database.MySQL.database-name");
+        String DB_HOSTNAME = config.getString("database.MySQL.hostname");
+        boolean DB_SSL = config.getBoolean("database.MySQL.use-ssl");
+        int DB_PORT = config.getInt("database.MySQL.port");
 
-        String urlW = new StringBuilder()
-                .append("jdbc:mysql://")
-                .append(config.getString("database.MySQL.hostname"))
-                .append(":")
-                .append(config.getInt("database.MySQL.port"))
-                .append("/")
-                .append(config.getString("database.MySQL.database-name"))
-                .append("?useSSL=")
-                .append(config.getString("database.MySQL.use-ssl"))
-                .toString();
+        String DB_USERNAME = config.getString("database.MySQL.username");
+        String DB_PASSWORD = config.getString("database.MySQL.password");
+        
+        String url = new StringBuilder().append("jdbc:mysql://").append(DB_HOSTNAME).append(":").append(DB_PORT).append("/").append("?useSSL=").append(DB_SSL).toString();
+        String dbUrl = new StringBuilder().append("jdbc:mysql://").append(DB_HOSTNAME).append(":").append(DB_PORT).append("/").append(DB_NAME).append("?useSSL=").append(DB_SSL).toString();
 
         try {
-            conn = DriverManager.getConnection(urlN, config.getString("database.MySQL.username"), config.getString("database.MySQL.password"));
-            ResultSet set = conn.createStatement().executeQuery("SHOW DATABASES LIKE \"%r\";".replace("%r", config.getString("database.MySQL.database-name")));
+            connection = DriverManager.getConnection(url, DB_USERNAME, DB_PASSWORD);
+            String query = new StringBuilder(50).append("SHOW DATABASES LIKE \"").append(DB_NAME).append("\";").toString();
 
-            if (set.next()) {
-                System.out.println("-> " + set.getString("Database (referralXpert)"));
-            } else {
-                conn.createStatement().execute("CREATE DATABASE " + config.getString("database.MySQL.database-name"));
-                ResultSet set2 = conn.createStatement().executeQuery("SHOW DATABASES LIKE \"%r\";".replace("%r", config.getString("database.MySQL.database-name")));
-                if (set2.next()) System.out.println("-> " + set2.getString("Database (referralXpert)"));
-            }
+            ResultSet set = connection.createStatement().executeQuery(query);
+
+            if (!set.next()) {
+                connection.createStatement().execute(new StringBuilder(45).append("CREATE DATABASE ").append(DB_NAME).append(";").toString());
+                set = connection.createStatement().executeQuery(query);
+                if (set.next()) connection = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
+            } else
+                connection = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
+
         } catch (SQLException e) {
             chat.viaConsole(true, messages.getString("plugin-error.could-not-connect-db")
                     .replace("%db-exec%", e.getCause().getMessage())
                     .replace("%db-type%", "MySQL"));
-            e.printStackTrace();
         }
-        return conn;
+        return connection;
     }
 
     /** SQLite stuff */
