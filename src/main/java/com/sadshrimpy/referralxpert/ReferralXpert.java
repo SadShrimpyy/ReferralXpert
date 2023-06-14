@@ -2,6 +2,8 @@ package com.sadshrimpy.referralxpert;
 
 import com.sadshrimpy.referralxpert.commands.CommandManager;
 import com.sadshrimpy.referralxpert.commands.TabCompleterManager;
+import com.sadshrimpy.referralxpert.databases.sync.DBSyncType;
+import com.sadshrimpy.referralxpert.databases.sync.DBSyncronization;
 import com.sadshrimpy.referralxpert.events.PlayerJoinEv;
 import com.sadshrimpy.referralxpert.events.PlayerQuitEv;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadLibrary;
@@ -31,8 +33,11 @@ public final class ReferralXpert extends JavaPlugin {
         PluginCommand baseCommand = getCommand("referralxpert");
         PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
-        registerEvents(pluginManager);
         registerCommands(commandManager, completerManager, baseCommand);
+        registerEvents(pluginManager);
+
+        DBSyncronization sync = new DBSyncronization();
+        sync.registerTimer();
     }
 
     private void registerEvents(PluginManager pluginManager) {
