@@ -153,7 +153,7 @@ public class DbProceduresT {
                 .append("FOREIGN KEY(IdUsaFk) REFERENCES usages(IdUsaPk)")
                 .append(");").toString());
 
-        query[4] = (new StringBuilder(330)
+        query[4] = (new StringBuilder(190)
                 .append("CREATE TABLE IF NOT EXISTS claim (")
                 .append("IdPlaFk INT(9) NOT NULL,")
                 .append("IdRefFk INT(9) NOT NULL,")
