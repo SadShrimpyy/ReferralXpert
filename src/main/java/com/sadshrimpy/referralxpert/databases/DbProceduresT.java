@@ -4,10 +4,10 @@ import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
@@ -113,6 +113,60 @@ public class DbProceduresT {
         } catch (IOException e) {
 //            e.printStackTrace();
             return null;
+        }
+    }
+
+    /** BOTH stuff (Query etc.) */
+    public void buildTables() {
+        String[] query = new String[5];
+        query[0] = (new StringBuilder(180)
+                .append("CREATE TABLE IF NOT EXISTS player (")
+                .append("IdPlaPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("streak INT(5) NOT NULL,")
+                .append("uuid VARCHAR(37) NOT NULL,")
+                .append("last_code VARCHAR(101) NOT NULL")
+                .append(");").toString());
+
+        query[1] = (new StringBuilder(160)
+                .append("CREATE TABLE IF NOT EXISTS period (")
+                .append("IdPerPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("period INT(9) NOT NULL,")
+                .append("infinity ENUM(\"yes\",\"no\") NOT NULL")
+                .append(");").toString());
+
+        query[2] = (new StringBuilder(150)
+                .append("CREATE TABLE IF NOT EXISTS usages (")
+                .append("IdUsaPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("usages INT(10) NOT NULL,")
+                .append("infinity ENUM(\"yes\",\"no\") NOT NULL")
+                .append(");").toString());
+
+        query[3] = (new StringBuilder(330)
+                .append("CREATE TABLE IF NOT EXISTS referral (")
+                .append("IdRefPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("IdPerFk INT(9) NOT NULL,")
+                .append("IdUsaFk INT(9) NOT NULL,")
+                .append("code VARCHAR(101) NOT NULL,")
+                .append("owner_uuid VARCHAR(37) NOT NULL,")
+                .append("once ENUM(\"yes\",\"no\") NOT NULL,")
+                .append("FOREIGN KEY(IdPerFk) REFERENCES period(IdPerPk),")
+                .append("FOREIGN KEY(IdUsaFk) REFERENCES usages(IdUsaPk)")
+                .append(");").toString());
+
+        query[4] = (new StringBuilder(330)
+                .append("CREATE TABLE IF NOT EXISTS claim (")
+                .append("IdPlaFk INT(9) NOT NULL,")
+                .append("IdRefFk INT(9) NOT NULL,")
+                .append("FOREIGN KEY(IdPlaFk) REFERENCES player(IdPlaPk),")
+                .append("FOREIGN KEY(IdRefFk) REFERENCES referral(IdRefPk)")
+                .append(");").toString());
+
+        try {
+            Statement stmt = connection.createStatement();
+            for (int i = 0; i < query.length; i++)
+                stmt.executeUpdate(query[i]);
+        } catch (SQLException e) {
+//            throw new RuntimeException(e);
         }
     }
 }

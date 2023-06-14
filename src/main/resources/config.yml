@@ -83,9 +83,11 @@ database: #todo SQLite & MySQL
 
 # Here you can change all the settings related to the mechanics offered by the plugin.
 
-        # ---------------------------------- #
-# # # # #   THE CODES ARE CASE-SENSITIVE !   # # # # #
-        # ---------------------------------- #
+        # -------===[ IMPORTANT ]===------- #
+# # # # #   The codes are CASE-SENSITIVE!   # # # # #
+        #     and their length can't go     #
+# # # # #      further than 100 chars       # # # # #
+        # --------------------------------- #
 
 referral:
     # If true the players with the same ip, can not refer each other.
