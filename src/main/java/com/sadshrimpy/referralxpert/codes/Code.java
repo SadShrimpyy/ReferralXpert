@@ -7,18 +7,18 @@ public class Code {
     private double usages;
     private String code;
     private UUID ownerId;
-    private int interval;
+    private int period;
     private boolean once;
 
-    public Code(String code, double usages, UUID ownerId, boolean once, String interval) {
+    public Code(String code, double usages, UUID ownerId, boolean once, String period) {
         this.ownerId = ownerId;
         this.usages = usages;
         this.once = once;
         this.code = code;
         if (once)
-            this.interval = -1;
+            this.period = -1;
         else
-            this.interval = Integer.parseInt(interval);
+            this.period = Integer.parseInt(period);
     }
 
 
@@ -32,8 +32,8 @@ public class Code {
     public String getCode() {
         return code;
     }
-    public int getInterval() {
-        return interval;
+    public int getPeriod() {
+        return period;
     }
     public boolean getOnce() {
         return once;

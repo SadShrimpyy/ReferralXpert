@@ -89,7 +89,7 @@ referral: # Referral's related messages:
       #   -> %player-name% : name of the player who the code's headed
       #   -> %code-max-usages% : maximum uses of the code
       #   -> %code% : name of the code that was created
-    created: "&a&lGood! &7The code: &d&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s), with an interval of &3%interval% &7hours."
+    created: "&a&lGood! &7The code: &d&o%code%&7, headed by the player: &6&o%player-name%&7, is ready to be used &b%code-max-usages% &7time(s), with an interval of &3%period% &7hours."
       # When you try to create a code, but it already exists.
       #   -> %code% : name of the code you tried to create
     cannot-create: "&c&lSorry&7! But the &d&o%code% &ccan't &7be created! It probably &balready exists &7:("
@@ -179,7 +179,7 @@ help:
   list:
     - "&c-> &7&oHey! You can see the help menu here. Open the chat and hover your mouse cursor, over a command to see more information. Click the &o\"change page\" &7buttons to scroll through the help list."
     - "&6->&r &6&o/rxp help <page-number> &8- &7view the generic help menu (this)."
-    - "&e->&r &6&o/rxp create <code> <maximum-usages> <interval> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7, redeemable every <interval> hours. &e&oNote: if you set <maximum> to any value below 0, will be any tmes reedemable. If the <player> isn't specified, the holder will be you. If the <interval> is any value below 0, the code will be redeemable only once for each player." #todo this command
+    - "&e->&r &6&o/rxp create <code> <maximum-usages> <period> <player> &8- &7create a new referral code, usable for &o<maximum> &7times, headed out to &o<player>&7, redeemable every <period> hours. &e&oNote: if you set <maximum> to any value below 0, will be any tmes reedemable. If the <player> isn't specified, the holder will be you. If the <period> is any value below 0, the code will be redeemable only once for each player." #todo this command
     - "&c->&r &6&o/rxp check &8- &7check the amount of referrals you have." #todo this command
     - "&6->&r &6&o/rxp check <player> <true/false> &8- &7check the amount of referrals a player has and, if &o<true> &7who they were referred by." #todo this command
     - "&e->&r &6&o/rxp goals &8- &7set rewards for each tot codes redeemed by other players." #todo this command

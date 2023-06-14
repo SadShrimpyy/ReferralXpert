@@ -85,7 +85,7 @@ public class CreateCommand implements CommandSyntax {
         sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.created")
                 .replace(place.getCode(), cmdArgs[1])
                 .replace(place.getCodeMaxUsages(), (int) usages >= 2147483647 ? "Infinity" : Integer.toString((int) usages))
-                .replace(place.getInterval(), res.toString())
+                .replace(place.getPeriod(), res.toString())
                 .replace(place.getPlayerName(), involved.getName())));
 
         sadLibrary.codes().getCodes().put(cmdArgs[1], new Code(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
