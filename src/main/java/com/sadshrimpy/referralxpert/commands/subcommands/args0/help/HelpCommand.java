@@ -8,17 +8,17 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class HelpCommand implements CommandSyntax {
 
-    private List<String> helpList;
+    private String[] helpList;
     private String[] cmdArgs;
     private byte finish;
     private byte start;
@@ -69,18 +69,8 @@ public class HelpCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        helpList = msg.getStringList("help.list");
-        int sz = helpList.size();
-
-/*
-  // todo select the amount displayed
-    # The size option select how many commands, per page will be displayed
-    # You can print minimum 3 commands per page!
-  size: 4
-        // Minimum value bu default: 3 commands per page
-        size = msg.getInt("help.size");
-        if (size < 3) size = 3; // Positive and minimum values
-*/
+        helpList = msg.getStringList("help.list").toArray(new String[0]);
+        int sz = helpList.length;
 
         if (cmdArgs.length == expectedArgs() - possibleErrors()) {
             cmdArgs = Arrays.copyOf(cmdArgs, cmdArgs.length + 1);
@@ -93,19 +83,27 @@ public class HelpCommand implements CommandSyntax {
             }
         }
 
-        size = 3;
-        pageMax = (byte) ((sz % size) == 0 ? sz / size : sz / size + 1);
-        page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);
-        if (page > pageMax) page = pageMax;
-
-        finish = (byte) ((page * size - 1) > sz ? sz - 1 : (page * size - 1));
-        start = (byte) (page < 1 ? 1 : (page - 1) * size);
+        buildValues(sz);
 
         sendBanner(sender, this.msg, chat);
         if (this.msg.getBoolean("help.space-between-rows"))
-            printWithSpace(sender, chat);
+            print(sender,
+                    true,
+                    chat,
+                    getRow(sender, chat),
+                    this.msg.getBoolean("help.page.enabled"),
+                    new ButtonsRow(page, pageMax).getRowHoverable("help.page.row"),
+                    Bukkit.getPlayer(sender.getName()),
+                    sender instanceof ConsoleCommandSender);
         else
-            printWithoutSpace(sender, chat);
+            print(sender,
+                    false,
+                    chat,
+                    getRow(sender, chat),
+                    this.msg.getBoolean("help.page.enabled"),
+                    new ButtonsRow(page, pageMax).getRowHoverable("help.page.row"),
+                    Bukkit.getPlayer(sender.getName()),
+                    sender instanceof ConsoleCommandSender);
         sendBanner(sender, this.msg, chat);
 
     }
@@ -113,49 +111,44 @@ public class HelpCommand implements CommandSyntax {
     /**
      * Print the menu without the space
      * */
-    private void printWithSpace(CommandSender sender, SadChat chat) {
-/*
-        int remainCmds = cmds.size() - (size * (page - 1));
-        if (remainCmds < size) // if remain cmds ...
-            finish -= size - remainCmds; // NO 7
-        if (finish > cmds.size()) finish = cmds.size();
-*/
-        RowPosition row = getRow(sender, chat);
+    private void print(CommandSender sender, boolean space, SadChat chat, RowPosition row, boolean hPage, TextComponent rowBtns, Player player, boolean console) {
         if (row == null) return;
 
-        boolean hPage = this.msg.getBoolean("help.page.enabled");
-        TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
-        Player player = Bukkit.getPlayer(sender.getName());
-
-        // TODO: 15/06/2023 fix console command sender
-        Player.Spigot spigot = Objects.requireNonNull(player).spigot();
-
-        if (hPage && row.isFirst(row))
-            if (player != null) {
-                spigot.sendMessage(rowBtns);
-                sender.sendMessage("");
-            }
+        if (hPage && row.isFirst(row)) {
+            printRowButtons(sender, rowBtns, player, console);
+            sender.sendMessage("");
+        }
 
         TextComponent tc = new TextComponent();
-        while (start <= finish && helpList.size() > start) {
-//            sender.sendMessage(chat.viaChat(false, helpList.get(start)));
-            // TODO: 14/06/2023 create text component and send
-            tc.addExtra(chat.translateColors(helpList.get(start)));
-            tc.setHoverEvent(getHoverable(helpList.get(start)));
-            spigot.sendMessage(tc);
+        while (start <= finish && helpList.length > start) {
+            tc.addExtra(chat.translateColors(helpList[start]));
+            tc.setHoverEvent(getHoverable(helpList[start]));
+            if (!console)
+                player.spigot().sendMessage(tc);
+            else
+                sender.sendMessage(chat.translateColors(helpList[start]));
             tc.setText("");
             tc.setHoverEvent(null);
             tc.setExtra(new ArrayList<>(0));
-            if (start < finish)
+            if ((start < finish) && (space))
                 sender.sendMessage("");
             start++;
         }
 
-        if (hPage && !row.isFirst(row))
-            if (player != null) {
-                sender.sendMessage("");
-                spigot.sendMessage(rowBtns);
-            }
+        if (hPage && !row.isFirst(row)) {
+            sender.sendMessage("");
+            printRowButtons(sender, rowBtns, player, console);
+        }
+    }
+
+    /**
+     * Print thw row buttons to scroll through the pages
+     * */
+    private void printRowButtons(CommandSender sender, TextComponent rowBtns, Player player, boolean console) {
+        if (!console)
+            player.spigot().sendMessage(rowBtns);
+        else
+            sender.sendMessage(rowBtns.getText());
     }
 
     /**
@@ -166,37 +159,6 @@ public class HelpCommand implements CommandSyntax {
             if (query.contains(command))
                 return heMap.get(command);
         return null;
-    }
-
-    /**
-     * Print the menu without the space
-     * */
-    private void printWithoutSpace(CommandSender sender, SadChat msgC) {
-        RowPosition row;
-
-        row = getRow(sender, msgC);
-        if (row == null) return;
-
-        boolean hPage = this.msg.getBoolean("help.page.enabled");
-        TextComponent rowBtns = new ButtonsRow(page, pageMax).getRowHoverable("help.page.row");
-        Player player = Bukkit.getPlayer(sender.getName());
-
-        if (hPage && row.isFirst(row))
-            if (player != null) {
-                player.spigot().sendMessage(rowBtns);
-                sender.sendMessage("");
-            }
-
-        while (start <= finish && helpList.size() > start) {
-            sender.sendMessage(msgC.viaChat(false, helpList.get(start)));
-            start++;
-        }
-
-        if (hPage && !row.isFirst(row))
-            if (player != null) {
-                sender.sendMessage("");
-                player.spigot().sendMessage(rowBtns);
-            }
     }
 
     /**
@@ -220,6 +182,19 @@ public class HelpCommand implements CommandSyntax {
         sender.sendMessage(msgC.viaChat(false, msg.getString("help.banner")
                 .replace(place.getHelpCurPage(), Integer.toString(page))
                 .replace(place.getHelpMaxPage(), Integer.toString(pageMax))));
+    }
+
+    /**
+     * Build the values needed to perform the operations with the menu
+     * */
+    private void buildValues(int sz) {
+        size = 3;
+        pageMax = (byte) ((sz % size) == 0 ? sz / size : sz / size + 1);
+        page = (byte) Math.max(Byte.parseByte(cmdArgs[1]), 1);
+        if (page > pageMax) page = pageMax;
+
+        finish = (byte) ((page * size - 1) > sz ? sz - 1 : (page * size - 1));
+        start = (byte) (page < 1 ? 1 : (page - 1) * size);
     }
 
     /**

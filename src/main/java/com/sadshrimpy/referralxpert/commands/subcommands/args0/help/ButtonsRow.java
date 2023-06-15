@@ -56,11 +56,10 @@ public class ButtonsRow extends HelpCommand {
     public TextComponent getRowHoverable(String path) {
         StringBuilder sB1 = new StringBuilder();
         SadChat chat = sadLibrary.chat();
-        HoverEvent[] aHE = new HoverEvent[2];
 
-        // TODO: 5/26/2023 check the page and not go over the max :)
-        // TODO: 5/26/2023 check the page and not go over the max :)
+        HoverEvent[] aHE = new HoverEvent[2];
         ClickEvent[] aCE = new ClickEvent[2];
+
         if (page > 1) {
             aHE[0] = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(chat.translateColors(msg.getString("help.page.button-previous.hover"))));
             aCE[0] = new ClickEvent(ClickEvent.Action.RUN_COMMAND, sB1.append("/rxp help ").append(page - 1).toString());
