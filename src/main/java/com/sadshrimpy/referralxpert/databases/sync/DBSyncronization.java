@@ -26,13 +26,22 @@ public class DBSyncronization {
             sadLibrary.chat().viaConsole(true, sadLibrary.configurations().getMessages().getString("plugin-error.sync-not-recognised"));
     }
 
-    /** Runnable SYNC and A-SYNC */
+    /**
+     * Runnable SYNC and A-SYNC
+     * */
     private void startASyncRunnable() {
-        task = Bukkit.getScheduler().runTaskTimerAsynchronously(sadLibrary.generics().getPlugin(), runnable, 20L, sadLibrary.configurations().getConfig().getInt("database.sync.time") * 60L * 20L);
+        task = Bukkit.getScheduler().runTaskTimerAsynchronously(
+                sadLibrary.generics().getPlugin(),
+                runnable,
+                20L,
+                sadLibrary.configurations().getConfig().getInt("database.sync.time") * 60L * 20L);
     }
 
     private void startSyncRunnable() {
-        task = Bukkit.getScheduler().runTaskTimer(sadLibrary.generics().getPlugin(), runnable, 20L, sadLibrary.configurations().getConfig().getInt("database.sync.time") * 60L * 20L);
+        task = Bukkit.getScheduler().runTaskTimer(sadLibrary.generics().getPlugin(),
+                runnable,
+                20L,
+                sadLibrary.configurations().getConfig().getInt("database.sync.time") * 60L * 20L);
     }
 
     /** Getters */
@@ -49,6 +58,9 @@ public class DBSyncronization {
     }
 
     /** Killers */
+    /**
+     * kill the runnable task. If is sync or async.
+     * */
     public void killTask() {
         task.cancel();
     }

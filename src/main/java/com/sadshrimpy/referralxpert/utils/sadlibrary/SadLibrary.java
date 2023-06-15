@@ -9,7 +9,6 @@ public class SadLibrary {
     private SadPermissions permissions;
     private SadDatabase connection;
     private SadGenerics generics;
-    private SadReferrals codes;
     private SadFiles files;
     private SadChat chat;
     private SadDate date;
@@ -20,7 +19,6 @@ public class SadLibrary {
         this.generics = new SadGenerics();
         this.placeholders = new SadPlaceholders();
         this.permissions = new SadPermissions();
-        this.codes = new SadReferrals();
         this.date = new SadDate();
         this.chat = new SadChat();
         this.files = new SadFiles();
@@ -45,7 +43,6 @@ public class SadLibrary {
     public SadFiles files() { return this.files; }
     public SadChat chat() { return this.chat; }
     public SadDate date() { return this.date; }
-    public SadReferrals codes() { return this.codes; }
 
 
     public void buildFiles() {
@@ -61,7 +58,6 @@ public class SadLibrary {
         this.files = null;
         this.configurations = null;
         this.connection = null;
-        this.codes = null;
     }
 
 

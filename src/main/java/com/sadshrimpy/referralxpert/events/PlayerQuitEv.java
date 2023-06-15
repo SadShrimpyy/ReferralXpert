@@ -1,26 +1,32 @@
 package com.sadshrimpy.referralxpert.events;
 
+import com.sadshrimpy.referralxpert.databases.procedures.DBQuerys;
+import com.sadshrimpy.referralxpert.databases.sync.RunnableTask;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.EventExecutor;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.UUID;
 
+import static com.sadshrimpy.referralxpert.ReferralXpert.cache;
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
-public class PlayerQuitEv implements Listener {
+public class PlayerQuitEv extends RunnableTask implements Listener {
 
     @EventHandler
     public EventExecutor executor() {
         return (listener, eventPassed) -> {
             PlayerQuitEvent event = (PlayerQuitEvent) eventPassed;
-            if (sadLibrary.codes().getOnlineMap().isEmpty()) return;
+            if (cache.getOnlineMap().isEmpty()) return;
+            UUID uuid = event.getPlayer().getUniqueId();
 
-            final HashMap<UUID, Date> oMap = sadLibrary.codes().getOnlineMap();
-            long diff = (sadLibrary.date().getDefaultTimeInMills() - oMap.get(event.getPlayer().getUniqueId()).getTime()) / 1000;
+            long seconds = (sadLibrary.date().getDefaultTimeInMills() - cache.getOnlineMap().get(uuid).getTime()) / 1000;
+            cache.playersTimes().put(uuid, seconds);
+            cache.getOnlineMap().remove(uuid);
+
+            // Test the DB
+            super.TEST();
         };
     }
 

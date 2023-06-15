@@ -5,6 +5,7 @@ import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import static com.sadshrimpy.referralxpert.ReferralXpert.cache;
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class RedeemCommand implements CommandSyntax {
@@ -42,7 +43,7 @@ public class RedeemCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        if (!sadLibrary.codes().getCodes().containsKey(cmdArgs[1])) {
+        if (!cache.getCodes().containsKey(cmdArgs[1])) {
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.redeem.not-found")
                     .replace(sadLibrary.placeholders().getPlayerName(), sender.getName())
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
@@ -50,6 +51,7 @@ public class RedeemCommand implements CommandSyntax {
         }
 
         // TODO: 14/06/2023 ip check
-        // TODO: 14/06/2023 redeem per player
+        // TODO: 14/06/2023 playtime check
+        // TODO: 14/06/2023 redeem per player check
     }
 }

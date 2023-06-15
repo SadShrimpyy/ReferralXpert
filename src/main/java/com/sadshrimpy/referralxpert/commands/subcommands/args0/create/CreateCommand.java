@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
+import static com.sadshrimpy.referralxpert.ReferralXpert.cache;
 import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class CreateCommand implements CommandSyntax {
@@ -48,7 +49,7 @@ public class CreateCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        if (sadLibrary.codes().getCodes().containsKey(cmdArgs[1])) {
+        if (cache.getCodes().containsKey(cmdArgs[1])) {
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.cannot-create")
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
             return;
@@ -88,6 +89,6 @@ public class CreateCommand implements CommandSyntax {
                 .replace(place.getPeriod(), res.toString())
                 .replace(place.getPlayerName(), involved.getName())));
 
-        sadLibrary.codes().getCodes().put(cmdArgs[1], new Code(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
+        cache.getCodes().put(cmdArgs[1], new Code(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
     }
 }

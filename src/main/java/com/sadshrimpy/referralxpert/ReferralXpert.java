@@ -2,6 +2,7 @@ package com.sadshrimpy.referralxpert;
 
 import com.sadshrimpy.referralxpert.commands.CommandManager;
 import com.sadshrimpy.referralxpert.commands.TabCompleterManager;
+import com.sadshrimpy.referralxpert.databases.Cache;
 import com.sadshrimpy.referralxpert.databases.sync.DBSyncType;
 import com.sadshrimpy.referralxpert.databases.sync.DBSyncronization;
 import com.sadshrimpy.referralxpert.events.PlayerJoinEv;
@@ -23,10 +24,13 @@ import java.util.HashMap;
 public final class ReferralXpert extends JavaPlugin {
 
     public static SadLibrary sadLibrary = new SadLibrary();
+    public static Cache cache;
+    private DBSyncronization sync;
 
     @Override
     public void onEnable() {
         sadLibrary.initialize();
+        cache = new Cache();
 
         CommandManager commandManager = new CommandManager();
         TabCompleterManager completerManager = new TabCompleterManager();
@@ -36,7 +40,7 @@ public final class ReferralXpert extends JavaPlugin {
         registerCommands(commandManager, completerManager, baseCommand);
         registerEvents(pluginManager);
 
-        DBSyncronization sync = new DBSyncronization();
+        sync = new DBSyncronization();
         sync.registerTimer();
     }
 
@@ -57,5 +61,6 @@ public final class ReferralXpert extends JavaPlugin {
     @Override
     public void onDisable() {
         sadLibrary.destroy();
+        sync.killTask();
     }
 }
