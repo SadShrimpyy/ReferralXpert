@@ -18,9 +18,9 @@ public class DBSyncronization {
 
     public void registerTimer() {
         String SType = sadLibrary.configurations().getConfig().getString("database.sync.mode");
-        if (DBSyncType.ASYNC.name().equals(SType))
+        if (DBSyncType.ASYNC.value().equals(SType))
             startSyncRunnable();
-        else if (DBSyncType.SYNC.name().equals(SType))
+        else if (DBSyncType.SYNC.value().equals(SType))
             startASyncRunnable();
         else
             sadLibrary.chat().viaConsole(true, sadLibrary.configurations().getMessages().getString("plugin-error.sync-not-recognised"));

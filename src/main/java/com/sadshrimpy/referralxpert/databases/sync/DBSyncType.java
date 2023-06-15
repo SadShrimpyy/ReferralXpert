@@ -9,4 +9,7 @@ public enum DBSyncType {
     DBSyncType(String type) {
         this.type = type;
     }
+    public String value() {
+        return this.type;
+    }
 }

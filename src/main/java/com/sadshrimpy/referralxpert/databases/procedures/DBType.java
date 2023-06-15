@@ -9,4 +9,8 @@ public enum DBType {
     DBType(String type) {
         this.type = type;
     }
+
+    public String value() {
+        return this.type;
+    }
 }

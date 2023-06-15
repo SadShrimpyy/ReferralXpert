@@ -28,9 +28,9 @@ public class DBProceduresT {
         }
 
         String dbType = config.getString("database.type");
-        if (DBType.SQLite.name().equals(dbType))
+        if (DBType.SQLite.value().equals(dbType))
             return getSqliteConnection();
-        else if (DBType.MySQL.name().equals(dbType))
+        else if (DBType.MySQL.value().equals(dbType))
             return getMysqlConnection();
         else {
             sadLibrary.chat().viaConsole(true, messages.getString("plugin-error.database-not-recognised"));
