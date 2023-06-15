@@ -1,6 +1,7 @@
 package com.sadshrimpy.referralxpert.commands.subcommands.args0.create;
 
-import com.sadshrimpy.referralxpert.codes.Code;
+import com.sadshrimpy.referralxpert.referral.MultiansType;
+import com.sadshrimpy.referralxpert.referral.Referral;
 import com.sadshrimpy.referralxpert.commands.CommandSyntax;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadPlaceholders;
@@ -49,7 +50,7 @@ public class CreateCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        if (cache.getCodes().containsKey(cmdArgs[1])) {
+        if (cache.getReferrals().containsKey(cmdArgs[1])) {
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.cannot-create")
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
             return;
@@ -71,24 +72,33 @@ public class CreateCommand implements CommandSyntax {
         assert involved != null;
 
         SadPlaceholders place = sadLibrary.placeholders();
-        double usages = Double.parseDouble(cmdArgs[2]) <= 0 ? Double.POSITIVE_INFINITY : Double.parseDouble(cmdArgs[2]);
-        double interval = Double.parseDouble(cmdArgs[3]) <= 0 ? Double.POSITIVE_INFINITY : Double.parseDouble(cmdArgs[3]);
+        double usa_usages = Double.parseDouble(cmdArgs[2]) <= 0 ? Double.POSITIVE_INFINITY : Double.parseDouble(cmdArgs[2]); // <global-usages>
+        double per_period = Double.parseDouble(cmdArgs[3]) <= 0 ? Double.POSITIVE_INFINITY : Double.parseDouble(cmdArgs[3]); // <period>
 
-        boolean once = false;
-        StringBuilder res = new StringBuilder();
-        if (interval < 2147483647)
-            res.append((int) interval);
+        MultiansType per_infinity = MultiansType.NO;
+        StringBuilder strPeriod = new StringBuilder();
+        if (per_period < 2147483647)
+            strPeriod.append((int) per_period);
         else {
-            once = true;
-            res.append("Infinity");
+            per_infinity = MultiansType.YES;
+            strPeriod.append("Infinity");
+        }
+
+        MultiansType usa_once = MultiansType.NO;
+        StringBuilder strCodeMaxUsages = new StringBuilder();
+        if (usa_usages < 2147483647)
+            strCodeMaxUsages.append((int) usa_usages);
+        else {
+            usa_once = MultiansType.YES;
+            strCodeMaxUsages.append("Infinity");
         }
 
         sender.sendMessage(chat.viaChat(true, msg.getString("referral.creation.created")
                 .replace(place.getCode(), cmdArgs[1])
-                .replace(place.getCodeMaxUsages(), (int) usages >= 2147483647 ? "Infinity" : Integer.toString((int) usages))
-                .replace(place.getPeriod(), res.toString())
+                .replace(place.getCodeMaxUsages(), strCodeMaxUsages)
+                .replace(place.getPeriod(), strPeriod)
                 .replace(place.getPlayerName(), involved.getName())));
 
-        cache.getCodes().put(cmdArgs[1], new Code(cmdArgs[1], usages, involved.getUniqueId(), once, res.toString()));
+        cache.codeCreated().put(cmdArgs[1], new Referral(cmdArgs[1], involved.getUniqueId(), (long) per_period, per_infinity, (long) usa_usages, usa_once));
     }
 }
