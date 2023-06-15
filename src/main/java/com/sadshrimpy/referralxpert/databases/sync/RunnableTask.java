@@ -17,39 +17,32 @@ public class RunnableTask implements Runnable {
     public void run() {
         sadLibrary.database().open();
         DBQueries queries = new DBQueries(sadLibrary.database().getConnection());
-        Iterator<Map.Entry<UUID, Long>> iterator = cache.playersTimes().entrySet().iterator();
-        long res;
-        while (iterator.hasNext()) {
-            Map.Entry<UUID, Long> entry = iterator.next();
-            UUID uuid = entry.getKey();
-            Long time = entry.getValue();
-            res = queries.findPlayer(uuid);
-            if (res == -1)
-                registerPlayer(queries, iterator, uuid, time);
-            else if (res == -2)
-                sendError("SQLException", "-2 : Find Player");
-            else {
-                res = queries.updateTime(uuid, time);
-                if (res == -2)
-                    sendError("SQLException", "-2 : Update Player Time");
-                else if (res == 1)
-                    iterator.remove();
-            }
-        }
-    }
 
-    /**
-     * @implNote Register the player into the database, with all their data
-     * */
-    private void registerPlayer(DBQueries querys, Iterator<Map.Entry<UUID, Long>> iterator, UUID uuid, Long time) {
-        long resTime = querys.registerNewPlayer(uuid, time);
-        if (resTime == -2)
-            sendError("SQLException", "-2 : Register New Player >> " + uuid);
-        else if (resTime == 0)
-            sendError("Update Database", "Register New Player >> " + uuid);
-        else
-            iterator.remove();
+        List<UUID> uuidsToRegister = new ArrayList<>();
+        List<UUID> uuidsToUpdate = new ArrayList<>();
+        List<String> errorMessages = new ArrayList<>();
+
+        for (Map.Entry<UUID, Long> entry : cache.playersTimes().entrySet()) {
+            UUID uuid = entry.getKey();
+            long res = queries.findPlayer(uuid);
+            if (res == -1)
+                uuidsToRegister.add(uuid);
+            else if (res == -2)
+                errorMessages.add("-2 : Find Player");
+            else
+                uuidsToUpdate.add(uuid);
         }
+
+        queries.registerPlayers(errorMessages, uuidsToRegister, cache.playersTimes());
+
+        queries.updatePlayersTime(errorMessages, uuidsToUpdate, cache.playersTimes());
+
+        for (String errorMessage : errorMessages) {
+            sendError("SQLException", errorMessage);
+        }
+
+        sadLibrary.database().close();
+    }
 
 
     private void sendError(String e, String t) {
