@@ -32,6 +32,14 @@ public class SadDatabase {
         }
     }
 
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+        }
+    }
+
     /** Getters */
     public Connection getConnection() {
         return this.connection;
