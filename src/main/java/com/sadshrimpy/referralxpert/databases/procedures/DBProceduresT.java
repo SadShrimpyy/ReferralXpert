@@ -136,7 +136,7 @@ public class DBProceduresT {
                 .append("CREATE TABLE IF NOT EXISTS usages (")
                 .append("IdUsaPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
                 .append("usages INT(10) NOT NULL,")
-                .append("infinity ENUM(\"yes\",\"no\") NOT NULL")
+                .append("once ENUM(\"yes\",\"no\") NOT NULL")
                 .append(");").toString());
 
         query[3] = (new StringBuilder(330)
@@ -146,7 +146,6 @@ public class DBProceduresT {
                 .append("IdUsaFk INT(9) NOT NULL,")
                 .append("code VARCHAR(101) NOT NULL,")
                 .append("owner_uuid VARCHAR(37) NOT NULL,")
-                .append("once ENUM(\"yes\",\"no\") NOT NULL,")
                 .append("FOREIGN KEY(IdPerFk) REFERENCES period(IdPerPk),")
                 .append("FOREIGN KEY(IdUsaFk) REFERENCES usages(IdUsaPk)")
                 .append(");").toString());

@@ -1,5 +1,7 @@
 package com.sadshrimpy.referralxpert.databases.procedures;
 
+import com.sadshrimpy.referralxpert.referral.Referral;
+
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,27 @@ public class DBQueries {
                 return -1;
             else
                 return result.getLong("online_time");
+        } catch (SQLException e) {
+            return -2;
+        }
+    }
+
+    /**
+     * @implNote Check if a code is registered in the database.
+     * @return -1 if the code isn't found, -2 the exception, else 1 if the code is found
+     * */
+    public byte findCode(String str) {
+        try {
+            stmt = connection.prepareStatement(new StringBuilder(100)
+                    .append("SELECT r.code ")
+                    .append("FROM referral AS r ")
+                    .append("WHERE r.code = ?;").toString());
+            stmt.setString(1, str);
+            result = stmt.executeQuery();
+            if (!result.next())
+                return -1;
+            else
+                return 1;
         } catch (SQLException e) {
             return -2;
         }
@@ -77,6 +100,27 @@ public class DBQueries {
             } catch (SQLException e) {
                 errorMessages.add("Register New Player >> " + uuid);
             }
+        });
+    }
+
+    /**
+     * Register the players in the database. In case of error, the list will be updated and printed later
+     * */
+    public void registerReferrals(List<String> errorMessages, List<Referral> referralsToRegister) {
+        referralsToRegister.forEach(referral -> {
+            // TODO: 15/06/2023 insert into: period, usages and referral
+//            try {
+//                stmt = connection.prepareStatement(new StringBuilder(80)
+//                        .append("INSERT INTO player (streak, online_time, uuid, last_code) ")
+//                        .append("VALUES ")
+//                        .append("(?, ?, ?, ?);").toString());
+//                stmt.setString(1, String.valueOf(0));
+//                stmt.setString(3, String.valueOf(referral));
+//                stmt.setString(4, "");
+//                stmt.executeUpdate();
+//            } catch (SQLException e) {
+//                errorMessages.add("Register New Player >> " + referral);
+//            }
         });
     }
 }

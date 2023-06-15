@@ -1,6 +1,7 @@
 package com.sadshrimpy.referralxpert.databases.sync;
 
 import com.sadshrimpy.referralxpert.databases.procedures.DBQueries;
+import com.sadshrimpy.referralxpert.referral.Referral;
 
 import java.util.*;
 
@@ -16,14 +17,43 @@ public class RunnableTask implements Runnable {
     @Override
     public void run() {
         sadLibrary.database().open();
+        System.out.println("-=<: RUNNABLE START :>=-");
         DBQueries queries = new DBQueries(sadLibrary.database().getConnection());
 
-        List<UUID> uuidsToRegister = new ArrayList<>();
-        List<UUID> uuidsToUpdate = new ArrayList<>();
-        List<String> errorMessages = new ArrayList<>();
+        playersOperation(queries);
+        referralsOperations(queries);
 
-        for (Map.Entry<UUID, Long> entry : cache.playersTimes().entrySet()) {
-            UUID uuid = entry.getKey();
+        sadLibrary.database().close();
+    }
+
+    private void referralsOperations(DBQueries queries) {
+        LinkedList<Referral> referralsToRegister = new LinkedList<>();
+        LinkedList<String> errorMessages = new LinkedList<>();
+
+        cache.codeCreated().forEach((str, referral) -> {
+            byte res = queries.findCode(str);
+            if (res == -1)
+                referralsToRegister.add(referral);
+            else if (res == -2)
+                errorMessages.add("-2 : Create New Code");
+        });
+
+        queries.registerReferrals(errorMessages, referralsToRegister);
+        cache.clearReferralsCreatedCache();
+
+        errorMessages.forEach(msg -> sendError("SQLException", msg));
+    }
+
+    /**
+     * Register new players and update their online time
+     * update the time of registered players
+     * */
+    private void playersOperation(DBQueries queries) {
+        LinkedList<UUID> uuidsToRegister = new LinkedList<>();
+        LinkedList<UUID> uuidsToUpdate = new LinkedList<>();
+        LinkedList<String> errorMessages = new LinkedList<>();
+
+        cache.playersTimes().forEach((uuid, value) -> {
             long res = queries.findPlayer(uuid);
             if (res == -1)
                 uuidsToRegister.add(uuid);
@@ -31,17 +61,13 @@ public class RunnableTask implements Runnable {
                 errorMessages.add("-2 : Find Player");
             else
                 uuidsToUpdate.add(uuid);
-        }
+        });
 
         queries.registerPlayers(errorMessages, uuidsToRegister, cache.playersTimes());
-
         queries.updatePlayersTime(errorMessages, uuidsToUpdate, cache.playersTimes());
+        cache.clearPlayersTimesCache();
 
-        for (String errorMessage : errorMessages) {
-            sendError("SQLException", errorMessage);
-        }
-
-        sadLibrary.database().close();
+        errorMessages.forEach(msg -> sendError("SQLException", msg));
     }
 
 
