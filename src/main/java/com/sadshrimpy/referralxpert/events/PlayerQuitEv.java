@@ -1,6 +1,5 @@
 package com.sadshrimpy.referralxpert.events;
 
-import com.sadshrimpy.referralxpert.databases.procedures.DBQuerys;
 import com.sadshrimpy.referralxpert.databases.sync.RunnableTask;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
