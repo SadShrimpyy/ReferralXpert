@@ -55,12 +55,12 @@ public class DBProceduresT {
             connection = DriverManager.getConnection(url, DB_USERNAME, DB_PASSWORD);
             String query = new StringBuilder(50).append("SHOW DATABASES LIKE \"").append(DB_NAME).append("\";").toString();
 
-            ResultSet set = connection.createStatement().executeQuery(query);
+            ResultSet result = connection.createStatement().executeQuery(query);
 
-            if (!set.next()) {
+            if (!result.next()) {
                 connection.createStatement().execute(new StringBuilder(45).append("CREATE DATABASE ").append(DB_NAME).append(";").toString());
-                set = connection.createStatement().executeQuery(query);
-                if (set.next()) connection = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
+                result = connection.createStatement().executeQuery(query);
+                if (result.next()) connection = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
             } else
                 connection = DriverManager.getConnection(dbUrl, DB_USERNAME, DB_PASSWORD);
 
@@ -120,6 +120,7 @@ public class DBProceduresT {
                 .append("CREATE TABLE IF NOT EXISTS player (")
                 .append("IdPlaPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
                 .append("streak INT(5) NOT NULL,")
+                .append("online_time BIGINT(255) NOT NULL,")
                 .append("uuid VARCHAR(37) NOT NULL,")
                 .append("last_code VARCHAR(101) NOT NULL")
                 .append(");").toString());
