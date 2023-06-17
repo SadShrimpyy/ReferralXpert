@@ -1,5 +1,7 @@
 package com.sadshrimpy.referralxpert.databases.procedures;
 
+import com.sadshrimpy.referralxpert.databases.procedures.types.DBType;
+import com.sadshrimpy.referralxpert.databases.queries.DBPreStmt;
 import com.sadshrimpy.referralxpert.utils.sadlibrary.SadChat;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -10,6 +12,7 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class DBProceduresT {
 
+    private DBPreStmt DBStmts;
     private FileConfiguration messages;
     private FileConfiguration config;
     private Connection connection;
@@ -19,6 +22,7 @@ public class DBProceduresT {
         this.chat = sadLibrary.chat();
         this.messages = sadLibrary.configurations().getMessages();
         this.config = sadLibrary.configurations().getConfig();
+        this.DBStmts = new DBPreStmt();
     }
 
     public Connection getFilteredConnection() {
@@ -116,47 +120,11 @@ public class DBProceduresT {
     /** BOTH stuff (Query etc.) */
     public void buildTables() {
         String[] query = new String[5];
-        query[0] = (new StringBuilder(180)
-                .append("CREATE TABLE IF NOT EXISTS player (")
-                .append("IdPlaPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
-                .append("streak INT(5) NOT NULL,")
-                .append("online_time BIGINT(255) NOT NULL,")
-                .append("uuid VARCHAR(37) NOT NULL,")
-                .append("last_code VARCHAR(101) NOT NULL")
-                .append(");").toString());
-
-        query[1] = (new StringBuilder(160)
-                .append("CREATE TABLE IF NOT EXISTS period (")
-                .append("IdPerPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
-                .append("period INT(9) NOT NULL,")
-                .append("infinity ENUM(\"yes\",\"no\") NOT NULL")
-                .append(");").toString());
-
-        query[2] = (new StringBuilder(150)
-                .append("CREATE TABLE IF NOT EXISTS usages (")
-                .append("IdUsaPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
-                .append("usages INT(10) NOT NULL,")
-                .append("once ENUM(\"yes\",\"no\") NOT NULL")
-                .append(");").toString());
-
-        query[3] = (new StringBuilder(330)
-                .append("CREATE TABLE IF NOT EXISTS referral (")
-                .append("IdRefPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
-                .append("IdPerFk UNSIGNED INT(11) NOT NULL,")
-                .append("IdUsaFk UNSIGNED INT(11) NOT NULL,")
-                .append("code VARCHAR(101) NOT NULL,")
-                .append("owner_uuid VARCHAR(37) NOT NULL,")
-                .append("FOREIGN KEY(IdPerFk) REFERENCES period(IdPerPk),")
-                .append("FOREIGN KEY(IdUsaFk) REFERENCES usages(IdUsaPk)")
-                .append(");").toString());
-
-        query[4] = (new StringBuilder(190)
-                .append("CREATE TABLE IF NOT EXISTS claim (")
-                .append("IdPlaFk UNSIGNED INT(11) NOT NULL,")
-                .append("IdRefFk UNSIGNED INT(11) NOT NULL,")
-                .append("FOREIGN KEY(IdPlaFk) REFERENCES player(IdPlaPk),")
-                .append("FOREIGN KEY(IdRefFk) REFERENCES referral(IdRefPk)")
-                .append(");").toString());
+        query[0] = DBStmts.getCreate(0);
+        query[1] = DBStmts.getCreate(1);
+        query[2] = DBStmts.getCreate(2);
+        query[3] = DBStmts.getCreate(3);
+        query[4] = DBStmts.getCreate(4);
 
         try {
             Statement stmt = connection.createStatement();

@@ -1,4 +1,4 @@
-package com.sadshrimpy.referralxpert.databases.procedures;
+package com.sadshrimpy.referralxpert.databases.queries;
 
 import com.sadshrimpy.referralxpert.referral.MultiansType;
 import com.sadshrimpy.referralxpert.referral.Referral;
@@ -10,14 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import static com.sadshrimpy.referralxpert.ReferralXpert.cache;
+
 public class DBQueries {
 
+    private DBPreStmt DBStmts;
     private Connection connection;
     private PreparedStatement stmt;
     private ResultSet result;
 
     public DBQueries(Connection connection) {
         this.connection = connection;
+        this.DBStmts = new DBPreStmt();
     }
 
     /** Querys to CHECK && RETURN */
@@ -28,10 +32,7 @@ public class DBQueries {
      * */
     public long findPlayer(UUID uuid) {
         try {
-            stmt = connection.prepareStatement(new StringBuilder(100)
-                    .append("SELECT p.online_time ")
-                    .append("FROM player AS p ")
-                    .append("WHERE p.uuid = ?;").toString());
+            stmt = connection.prepareStatement(DBStmts.getFindPlayer());
             stmt.setString(1, String.valueOf(uuid));
             result = stmt.executeQuery();
             if (!result.next())
@@ -49,10 +50,7 @@ public class DBQueries {
      * */
     public byte findCode(String str) {
         try {
-            stmt = connection.prepareStatement(new StringBuilder(100)
-                    .append("SELECT r.code ")
-                    .append("FROM referral AS r ")
-                    .append("WHERE r.code = ?;").toString());
+            stmt = connection.prepareStatement(DBStmts.getFindCode());
             stmt.setString(1, str);
             result = stmt.executeQuery();
             if (!result.next())
@@ -72,10 +70,7 @@ public class DBQueries {
     public void updatePlayersTime(List<String> errorMessages, List<UUID> uuidsToUpdate, HashMap<UUID, Long> timeMap) {
         uuidsToUpdate.forEach(uuid -> {
             try {
-                stmt = connection.prepareStatement(new StringBuilder(70)
-                        .append("UPDATE player ")
-                        .append("SET online_time = online_time + ? ")
-                        .append("WHERE uuid = ?;").toString());
+                stmt = connection.prepareStatement(DBStmts.getUpdatePlayersTime());
                 stmt.setString(1, String.valueOf(timeMap.get(uuid)));
                 stmt.setString(2, String.valueOf(uuid));
                 stmt.executeUpdate();
@@ -91,10 +86,7 @@ public class DBQueries {
     public void registerPlayers(List<String> errorMessages, List<UUID> uuidsToRegister, HashMap<UUID, Long> timeMap) {
         uuidsToRegister.forEach(uuid -> {
             try {
-                stmt = connection.prepareStatement(new StringBuilder(80)
-                        .append("INSERT INTO player (streak, online_time, uuid, last_code) ")
-                        .append("VALUES ")
-                        .append("(?, ?, ?, ?);").toString());
+                stmt = connection.prepareStatement(DBStmts.getRegisterPlayers());
                 stmt.setString(1, String.valueOf(0));
                 stmt.setString(2, String.valueOf(timeMap.get(uuid)));
                 stmt.setString(3, String.valueOf(uuid));
@@ -111,10 +103,6 @@ public class DBQueries {
      * */
     public void registerReferrals(List<String> errorMessages, List<Referral> referralsToRegister) {
         referralsToRegister.forEach(referral -> {
-
-            System.out.println("registerig : " + referral.getCode() + "  period: " + referral.getPeriod().getPeriod() + "  with infinity : " + referral.getPeriod().getInfinity());
-
-            // TODO: 15/06/2023 insert into: period, usages and referral
             // Period table
             long mysql_r_periodId;
             try {
@@ -141,13 +129,8 @@ public class DBQueries {
                 return;
             }
 
-            System.out.println("registered ids: " + mysql_r_periodId + " - " + mysql_r_usagesId);
-
             try {
-                stmt = connection.prepareStatement(new StringBuilder(80)
-                        .append("INSERT INTO referral (IdPerFk, IdUsaFk, code, owner_uuid) ")
-                        .append("VALUES ")
-                        .append("(?, ?, ?, ?);").toString());
+                stmt = connection.prepareStatement(DBStmts.getRegisterReferral());
                 stmt.setString(1, String.valueOf(mysql_r_periodId));
                 stmt.setString(2, String.valueOf(mysql_r_usagesId));
                 stmt.setString(3, String.valueOf(referral.getCode()));
@@ -156,15 +139,14 @@ public class DBQueries {
             } catch (SQLException e) {
                 errorMessages.add("RNR >> " + referral.getCode());
             }
+
+            cache.allReferrals().add(referral.getCode());
         });
     }
 
     /** Register into USAGES table */
     private long registerUsage(Usages usages) throws SQLException {
-        stmt = connection.prepareStatement(new StringBuilder(50)
-                .append("INSERT INTO usages (usages, once) ")
-                .append("VALUES ")
-                .append("(?, ?);").toString(), Statement.RETURN_GENERATED_KEYS);
+        stmt = connection.prepareStatement(DBStmts.getRegisterUsage(), Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, String.valueOf(usages.getOnce() == MultiansType.YES ? -1 : usages.getPeriod()));
         stmt.setString(2, String.valueOf(usages.getOnce()));
         int affRows = stmt.executeUpdate();
@@ -173,10 +155,7 @@ public class DBQueries {
 
     /** Register into USAGES table */
     private long registerPeriod(Period period) throws SQLException {
-        stmt = connection.prepareStatement(new StringBuilder(60)
-                .append("INSERT INTO period (period, infinity) ")
-                .append("VALUES ")
-                .append("(?, ?);").toString(), Statement.RETURN_GENERATED_KEYS);
+        stmt = connection.prepareStatement(DBStmts.getRegisterPeriod(), Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, String.valueOf(period.getInfinity() == MultiansType.YES ? -1 : period.getPeriod()));
         stmt.setString(2, String.valueOf(period.getInfinity()));
         int affRows = stmt.executeUpdate();
