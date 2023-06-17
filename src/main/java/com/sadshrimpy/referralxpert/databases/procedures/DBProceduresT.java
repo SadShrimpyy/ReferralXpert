@@ -118,7 +118,7 @@ public class DBProceduresT {
         String[] query = new String[5];
         query[0] = (new StringBuilder(180)
                 .append("CREATE TABLE IF NOT EXISTS player (")
-                .append("IdPlaPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("IdPlaPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
                 .append("streak INT(5) NOT NULL,")
                 .append("online_time BIGINT(255) NOT NULL,")
                 .append("uuid VARCHAR(37) NOT NULL,")
@@ -127,23 +127,23 @@ public class DBProceduresT {
 
         query[1] = (new StringBuilder(160)
                 .append("CREATE TABLE IF NOT EXISTS period (")
-                .append("IdPerPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("IdPerPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
                 .append("period INT(9) NOT NULL,")
                 .append("infinity ENUM(\"yes\",\"no\") NOT NULL")
                 .append(");").toString());
 
         query[2] = (new StringBuilder(150)
                 .append("CREATE TABLE IF NOT EXISTS usages (")
-                .append("IdUsaPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("IdUsaPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
                 .append("usages INT(10) NOT NULL,")
                 .append("once ENUM(\"yes\",\"no\") NOT NULL")
                 .append(");").toString());
 
         query[3] = (new StringBuilder(330)
                 .append("CREATE TABLE IF NOT EXISTS referral (")
-                .append("IdRefPk INT(9) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
-                .append("IdPerFk INT(9) NOT NULL,")
-                .append("IdUsaFk INT(9) NOT NULL,")
+                .append("IdRefPk UNSIGNED INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,")
+                .append("IdPerFk UNSIGNED INT(11) NOT NULL,")
+                .append("IdUsaFk UNSIGNED INT(11) NOT NULL,")
                 .append("code VARCHAR(101) NOT NULL,")
                 .append("owner_uuid VARCHAR(37) NOT NULL,")
                 .append("FOREIGN KEY(IdPerFk) REFERENCES period(IdPerPk),")
@@ -152,8 +152,8 @@ public class DBProceduresT {
 
         query[4] = (new StringBuilder(190)
                 .append("CREATE TABLE IF NOT EXISTS claim (")
-                .append("IdPlaFk INT(9) NOT NULL,")
-                .append("IdRefFk INT(9) NOT NULL,")
+                .append("IdPlaFk UNSIGNED INT(11) NOT NULL,")
+                .append("IdRefFk UNSIGNED INT(11) NOT NULL,")
                 .append("FOREIGN KEY(IdPlaFk) REFERENCES player(IdPlaPk),")
                 .append("FOREIGN KEY(IdRefFk) REFERENCES referral(IdRefPk)")
                 .append(");").toString());
