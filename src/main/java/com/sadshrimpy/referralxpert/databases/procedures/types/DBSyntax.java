@@ -1,4 +1,4 @@
-package com.sadshrimpy.referralxpert.databases.procedures;
+package com.sadshrimpy.referralxpert.databases.procedures.types;
 
 import java.sql.ResultSet;
 
