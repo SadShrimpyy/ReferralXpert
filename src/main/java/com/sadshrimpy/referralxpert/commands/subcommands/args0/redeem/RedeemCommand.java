@@ -43,7 +43,14 @@ public class RedeemCommand implements CommandSyntax {
 
     @Override
     public void perform(CommandSender sender) {
-        if (!cache.getReferrals().containsKey(cmdArgs[1])) {
+        if (!cache.DB_allReferrals().contains(cmdArgs[1])) {
+            sender.sendMessage(chat.viaChat(true, msg.getString("referral.redeem.not-found")
+                    .replace(sadLibrary.placeholders().getPlayerName(), sender.getName())
+                    .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));
+            return;
+        }
+
+        if (!cache.CACHE_referralsCreated().containsKey(cmdArgs[1])) {
             sender.sendMessage(chat.viaChat(true, msg.getString("referral.redeem.not-found")
                     .replace(sadLibrary.placeholders().getPlayerName(), sender.getName())
                     .replace(sadLibrary.placeholders().getCode(), cmdArgs[1])));

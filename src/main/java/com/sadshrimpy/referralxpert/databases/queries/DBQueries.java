@@ -103,45 +103,42 @@ public class DBQueries {
      * */
     public void registerReferrals(List<String> errorMessages, List<Referral> referralsToRegister) {
         referralsToRegister.forEach(referral -> {
-            // Period table
-            long mysql_r_periodId;
-            try {
-                mysql_r_periodId = registerPeriod(referral.getPeriod());
-                if  (mysql_r_periodId < 0) {
-                    errorMessages.add("RNR ID (t: period)");
-                    return;
-                }
-            } catch (SQLException e) {
-                errorMessages.add("RNR (t: period)");
-                return;
-            }
+            Long mysql_periodId = getMysql_Id_T(errorMessages, referral, 1, "RNR ID (t: period)", "RNR (t: period)");
+            if (mysql_periodId < 0) return;
 
-            // Usages table
-            long mysql_r_usagesId;
-            try {
-                mysql_r_usagesId = registerUsage(referral.getUsages());
-                if (mysql_r_usagesId < 0) {
-                    errorMessages.add("Register New Referral ID (t: usages) >> " + referral);
-                    return;
-                }
-            } catch (SQLException e) {
-                errorMessages.add("Register New Referral (t: usages) >> " + referral);
-                return;
-            }
+            Long mysql_usagesId = getMysql_Id_T(errorMessages, referral, 2, "Register New Referral ID (t: usages) >> " + referral, "Register New Referral (t: usages) >> " + referral);
+            if (mysql_usagesId < 0) return;
 
             try {
                 stmt = connection.prepareStatement(DBStmts.getRegisterReferral());
-                stmt.setString(1, String.valueOf(mysql_r_periodId));
-                stmt.setString(2, String.valueOf(mysql_r_usagesId));
+                stmt.setString(1, String.valueOf(mysql_periodId));
+                stmt.setString(2, String.valueOf(mysql_usagesId));
                 stmt.setString(3, String.valueOf(referral.getCode()));
                 stmt.setString(4, String.valueOf(referral.getOwner_uuid()));
                 stmt.executeUpdate();
             } catch (SQLException e) {
                 errorMessages.add("RNR >> " + referral.getCode());
+                return;
             }
 
-            cache.allReferrals().add(referral.getCode());
+            cache.DB_allReferrals().add(referral.getCode());
         });
+    }
+
+    /** Get the MySQL id (period & usages) */
+    private long getMysql_Id_T(List<String> errorMessages, Referral referral, int type, String e1, String e2) {
+        long readedId = -1;
+        try {
+            readedId = type == 2 ? registerUsage(referral.getUsages()) : registerPeriod(referral.getPeriod());
+            if  (readedId < 0) {
+                errorMessages.add(e1);
+                return readedId;
+            }
+        } catch (SQLException e) {
+            errorMessages.add(e2);
+            return readedId;
+        }
+        return readedId;
     }
 
     /** Register into USAGES table */

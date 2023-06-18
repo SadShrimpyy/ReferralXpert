@@ -21,7 +21,7 @@ public class PlayerQuitEv extends RunnableTask implements Listener {
             UUID uuid = event.getPlayer().getUniqueId();
 
             long seconds = (sadLibrary.date().getDefaultTimeInMills() - cache.getOnlineMap().get(uuid).getTime()) / 1000;
-            cache.playersTimes().put(uuid, seconds);
+            cache.CACHE_playersTimes().put(uuid, seconds);
             cache.getOnlineMap().remove(uuid);
 
             // Test the DB
