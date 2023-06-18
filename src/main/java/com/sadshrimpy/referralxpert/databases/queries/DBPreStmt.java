@@ -101,4 +101,9 @@ public class DBPreStmt {
                 .append("VALUES ")
                 .append("(?, ?);").toString();
     }
+
+    public String getAllReferrals() {
+        return new StringBuilder(40)
+                .append("SELECT r.code FROM referral AS r;").toString();
+    }
 }
