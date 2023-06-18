@@ -1,6 +1,7 @@
 package com.sadshrimpy.referralxpert.databases;
 
 import com.sadshrimpy.referralxpert.databases.queries.DBExecStmt;
+import com.sadshrimpy.referralxpert.databases.queries.DBPreStmt;
 import com.sadshrimpy.referralxpert.referral.Referral;
 import org.bukkit.Bukkit;
 
@@ -8,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
+
+import static com.sadshrimpy.referralxpert.ReferralXpert.sadLibrary;
 
 public class Cache {
     private HashMap<UUID, Date> onlineTime;
@@ -29,7 +32,10 @@ public class Cache {
     }
 
     private LinkedList<String> getAllRegisteredReferrals() {
-        return new DBExecStmt().getAllRegisteredReferrals();
+        sadLibrary.database().open();
+        LinkedList<String> allRegisteredReferrals = new DBExecStmt(sadLibrary.database().getConnection(), new DBPreStmt()).getAllRegisteredReferrals();
+        sadLibrary.database().close();
+        return allRegisteredReferrals;
     }
 
     public HashMap<UUID, Date> getOnlineMap() {

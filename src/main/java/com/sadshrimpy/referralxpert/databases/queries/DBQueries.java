@@ -15,6 +15,7 @@ import static com.sadshrimpy.referralxpert.ReferralXpert.cache;
 public class DBQueries {
 
     private DBPreStmt DBStmts;
+    private DBExecStmt DBExecute;
     private Connection connection;
     private PreparedStatement stmt;
     private ResultSet result;
@@ -22,6 +23,7 @@ public class DBQueries {
     public DBQueries(Connection connection) {
         this.connection = connection;
         this.DBStmts = new DBPreStmt();
+        this.DBExecute = new DBExecStmt(connection, DBStmts);
     }
 
     /** Querys to CHECK && RETURN */
@@ -109,17 +111,7 @@ public class DBQueries {
             Long mysql_usagesId = getMysql_Id_T(errorMessages, referral, 2, "Register New Referral ID (t: usages) >> " + referral, "Register New Referral (t: usages) >> " + referral);
             if (mysql_usagesId < 0) return;
 
-            try {
-                stmt = connection.prepareStatement(DBStmts.getRegisterReferral());
-                stmt.setString(1, String.valueOf(mysql_periodId));
-                stmt.setString(2, String.valueOf(mysql_usagesId));
-                stmt.setString(3, String.valueOf(referral.getCode()));
-                stmt.setString(4, String.valueOf(referral.getOwner_uuid()));
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                errorMessages.add("RNR >> " + referral.getCode());
-                return;
-            }
+            if (DBExecute.updateRegisteredReferrals(errorMessages, referral, mysql_periodId, mysql_usagesId)) return;
 
             cache.DB_allReferrals().add(referral.getCode());
         });
